@@ -7,13 +7,18 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await newRequest.post("/auth/login", { username, password });
+      const res = await newRequest.post("/auth/login", { 
+        username, 
+        password,
+        turnstileToken // Send token to backend
+      });
       localStorage.setItem("currentUser", JSON.stringify(res.data));
       navigate("/")
     } catch (err) {
@@ -29,6 +34,13 @@ function Login() {
   };
 
   const [showPassword, setShowPassword] = useState(false);
+
+  // Listen for Turnstile callback
+  React.useEffect(() => {
+    const handleTurnstile = (e) => setTurnstileToken(e.detail);
+    window.addEventListener('turnstile-success', handleTurnstile);
+    return () => window.removeEventListener('turnstile-success', handleTurnstile);
+  }, []);
 
   return (
     <div className="login">
@@ -69,7 +81,31 @@ function Login() {
 
           {error && <div className="error-msg">{error}</div>}
           
-          <button type="submit" className="login-btn">Sign In</button>
+          {/* Cloudflare Turnstile Widget */}
+          <div className="captcha-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.5rem 0' }}>
+            <div 
+              className="cf-turnstile" 
+              data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+              data-callback="onTurnstileSuccess"
+            ></div>
+          </div>
+
+          <script dangerouslySetInnerHTML={{
+            __html: `
+              window.onTurnstileSuccess = function(token) {
+                const event = new CustomEvent('turnstile-success', { detail: token });
+                window.dispatchEvent(event);
+              };
+            `
+          }} />
+
+          <button 
+            type="submit" 
+            className="login-btn"
+            disabled={!turnstileToken}
+          >
+            Sign In
+          </button>
           
           <div className="footer">
             <span>Don't have an account?</span>

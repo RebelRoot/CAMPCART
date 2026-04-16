@@ -28,6 +28,29 @@ export const login = async (c) => {
   const env = c.env;
   const users = db('users', env);
 
+  // Verify Cloudflare Turnstile CAPTCHA
+  if (env.TURNSTILE_SECRET_KEY) {
+    if (!body.turnstileToken) {
+      throw createError(400, "Security check required!");
+    }
+
+    const formData = new FormData();
+    formData.append('secret', env.TURNSTILE_SECRET_KEY);
+    formData.append('response', body.turnstileToken);
+    formData.append('remoteip', c.req.header('CF-Connecting-IP') || '');
+
+    const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+    const result = await fetch(url, {
+      body: formData,
+      method: 'POST',
+    });
+
+    const outcome = await result.json();
+    if (!outcome.success) {
+      throw createError(400, "Security check failed. Please try again.");
+    }
+  }
+
   if (!env.JWT_KEY) {
     throw createError(500, "Server configuration error: JWT_KEY not set");
   }
