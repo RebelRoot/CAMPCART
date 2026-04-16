@@ -193,22 +193,31 @@
     max-width: 1400px;
     width: 90%;
     margin: 0 auto;
-    padding: 0.6rem 0;
+    padding: 0.8rem 0;
     display: flex;
     justify-content: space-between;
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--on-surface-variant);
     box-sizing: border-box;
+    overflow-x: auto;
+    gap: 20px;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
 
     .menuLink {
+        white-space: nowrap;
         &:hover { color: var(--primary); }
     }
   }
 }
 
 @media (max-width: 980px) {
-    .navbar .menu, .navbar hr { display: none; }
+    .navbar .menu { 
+      justify-content: flex-start;
+      width: 100%;
+      padding: 0.8rem 20px;
+    }
     
     .navbar .container {
         .backdrop {

@@ -248,14 +248,14 @@
     .register {
         padding: 1rem;
         .register-card {
-            padding: 2rem 1.25rem;
+            padding: 1.5rem 1rem;
             box-shadow: none;
             border: none;
             background: transparent;
             form {
-                .header h1 { font-size: 2rem; }
-                .form-content { gap: 2rem; }
-                .footer-actions { padding-top: 1.5rem; }
+                .header h1 { font-size: 1.75rem; }
+                .form-content { gap: 1.5rem; }
+                .footer-actions { padding-top: 1.25rem; }
             }
         }
     }

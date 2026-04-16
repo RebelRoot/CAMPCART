@@ -280,14 +280,20 @@
 
       .info-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
         .info-item {
           display: flex;
           flex-direction: column;
           gap: 5px;
           label { font-size: 0.75rem; font-weight: 800; color: var(--on-surface-variant); text-transform: uppercase; }
-          span { font-size: 1rem; color: var(--slate-900); font-weight: 600; }
+          span { 
+            font-size: 1rem; 
+            color: var(--slate-900); 
+            font-weight: 600; 
+            word-break: break-all;
+            overflow-wrap: anywhere;
+          }
         }
       }
 
@@ -318,15 +324,54 @@
   .profile {
     .container {
       width: 95%;
+      margin-top: 20px;
       .header-section {
         flex-direction: column;
         gap: 20px;
         text-align: center;
-        .user-info { flex-direction: column; gap: 15px; }
+        padding: 20px;
+        .user-info { 
+          flex-direction: column; 
+          gap: 15px; 
+          .text-info h1 { font-size: 1.5rem; }
+        }
       }
       .main-content {
         grid-template-columns: 1fr;
+        gap: 20px;
+
+        .wallet-banner {
+          min-height: auto;
+          .wallet-content {
+             padding: 15px;
+             .wallet-main {
+               flex-direction: column;
+               text-align: center;
+               .add-money-btn { width: 100%; justify-content: center; }
+             }
+             .wallet-actions-bar {
+               flex-wrap: wrap;
+               .action-btn { flex: unset; width: calc(50% - 5px); }
+             }
+          }
+        }
+
+        .info-grid {
+          grid-template-columns: 1fr;
+        }
       }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .profile {
+    .container {
+       .main-content {
+          .wallet-banner .wallet-content .wallet-actions-bar .action-btn {
+             width: 100%;
+          }
+       }
     }
   }
 }

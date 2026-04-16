@@ -11,7 +11,7 @@
     width: 100%;
     max-width: 440px;
     height: fit-content;
-    padding: 2.25rem 2.75rem;
+    padding: 2.25rem 2.75rem 1.75rem; // Reduced bottom padding
     border-radius: var(--radius-lg);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
     border: 1px solid var(--indigo-100);
@@ -154,7 +154,7 @@
         gap: 0.5rem;
         font-size: 0.85rem;
         color: var(--on-surface-variant);
-        margin-top: 1rem;
+        margin-top: 0.5rem; // Reduced from 1rem
 
         .link-text {
           color: var(--primary);
@@ -184,10 +184,11 @@
   .login {
     padding: 1rem;
     .login-card {
-      padding: 2.5rem 1.5rem;
+      padding: 1.5rem 1rem;
       box-shadow: none;
       border: none;
       background: transparent;
+      form .header h1 { font-size: 1.75rem; }
     }
   }
 }
