@@ -95,19 +95,17 @@ function Login() {
           {error && <div className="error-msg">{error}</div>}
           
           {/* Cloudflare Turnstile Widget Placeholder */}
-          <div id="turnstile-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.4rem 0' }}></div>
+          <div id="turnstile-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.2rem 0', background: 'transparent' }}></div>
 
           <script dangerouslySetInnerHTML={{
             __html: `
               window.onTurnstileSuccess = (token) => window.dispatchEvent(new CustomEvent('turnstile-success', { detail: token }));
               window.onTurnstileExpire = () => window.dispatchEvent(new CustomEvent('turnstile-expire'));
               window.onTurnstileError = (code) => console.error('Turnstile Error:', code);
-              
-              // Helper to render manually if script loaded late
               window.renderTurnstile = function() {
                 if (window.turnstile) {
                   window.turnstile.render('#turnstile-container', {
-                    sitekey: '0x4AAAAAAC-o9YjjMsH5Evjx',
+                    sitekey: '${import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAAC-o9YjjMsH5Evjx'}',
                     callback: 'onTurnstileSuccess',
                     'expired-callback': 'onTurnstileExpire',
                     'error-callback': 'onTurnstileError',
@@ -120,12 +118,12 @@ function Login() {
           <button 
             type="submit" 
             className="login-btn"
-            disabled={!turnstileToken}
+            disabled={!turnstileToken && import.meta.env.PROD} // Only lock in production
           >
-            {turnstileToken ? 'Sign In' : 'Complete Verification'}
+            {turnstileToken ? 'Sign In' : (import.meta.env.DEV ? 'Sign In' : 'Complete Verification')}
           </button>
           
-          <div className="footer">
+          <div className="login-footer">
             <span>Don't have an account?</span>
             <span className="link-text" onClick={() => navigate("/register")}>Create one now</span>
           </div>

@@ -47,7 +47,7 @@ function Register() {
       if (file) {
         url = await upload(file);
       }
-      
+
       await newRequest.post("/auth/register", {
         ...user,
         img: url,
@@ -73,14 +73,13 @@ function Register() {
       <div className="register-card">
         <form onSubmit={handleSubmit}>
           <div className="header">
-            <h1>Join GigMart</h1>
+            <h1>Join CampCart</h1>
             <p>Start buying and selling with fellow students today</p>
           </div>
 
           <div className="form-content">
             <div className="section left">
               <h2>Basic Information</h2>
-              
               <div className="input-group">
                 <label>Username</label>
                 <input
@@ -107,11 +106,11 @@ function Register() {
               <div className="input-group">
                 <label>Password</label>
                 <div className="password-input">
-                  <input 
-                    name="password" 
+                  <input
+                    name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
-                    onChange={handleChange} 
+                    onChange={handleChange}
                     required
                   />
                   <span className="toggle-v" onClick={() => setShowPassword(!showPassword)}>
@@ -122,10 +121,10 @@ function Register() {
 
               <div className="input-group">
                 <label>Profile Picture</label>
-                <input 
-                  type="file" 
+                <input
+                  type="file"
                   className="file-input"
-                  onChange={(e) => setFile(e.target.files[0])} 
+                  onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
 
@@ -165,7 +164,7 @@ function Register() {
 
             <div className="section right">
               <h2>Account Details</h2>
-              
+
               <div className="seller-toggle-box">
                 <div className="toggle-info">
                   <h3>Become a Seller</h3>

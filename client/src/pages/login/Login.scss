@@ -11,7 +11,7 @@
     width: 100%;
     max-width: 440px;
     height: fit-content;
-    padding: 2.25rem 2.75rem 1.75rem; // Reduced bottom padding
+    padding: 1.75rem 2.25rem; // Shrunk padding
     border-radius: var(--radius-lg);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
     border: 1px solid var(--indigo-100);
@@ -20,7 +20,7 @@
     form {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.15rem; // Tightened gap
 
       .header {
         text-align: center;
@@ -100,7 +100,6 @@
           font-size: 1rem;
           background-color: var(--bg-light);
           transition: all 0.2s ease;
-
           &:focus {
             outline: none;
             border-color: var(--primary);
@@ -135,7 +134,6 @@
         cursor: pointer;
         border: none;
         transition: all 0.2s ease;
-        margin-top: 0.5rem;
 
         &:hover {
           transform: translateY(-2px);
@@ -146,15 +144,21 @@
         &:active {
           transform: translateY(0);
         }
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          background-color: var(--indigo-300);
+          transform: none;
+          box-shadow: none;
+        }
       }
 
-      .footer {
+      .login-footer {
         display: flex;
+        align-items: center;
         justify-content: center;
         gap: 0.5rem;
         font-size: 0.85rem;
-        color: var(--on-surface-variant);
-        margin-top: 0.5rem; // Reduced from 1rem
 
         .link-text {
           color: var(--primary);
