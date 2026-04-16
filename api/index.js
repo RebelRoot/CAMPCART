@@ -24,7 +24,7 @@ const app = new Hono().basePath('/api');
 app.use('*', logger());
 app.use('*', prettyJSON());
 app.use('*', cors({
-  origin: (origin) => origin, // Allow all origins for dev, or specify
+  origin: ['https://campcart.online', 'https://camp-cash-frontend.pages.dev'],
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -51,6 +51,9 @@ app.delete('/users/:id', verifyToken, user.deleteUser);
 
 // Gig Routes
 app.get('/gigs', gig.getGigs);
+app.get('/gigs/new', gig.getNewGigs);
+app.get('/gigs/featured', gig.getFeaturedGigs);
+app.get('/gigs/category/:cat', gig.getGigsByCategory);
 app.get('/gigs/single/:id', gig.getGig);
 app.get('/gigs/my', verifyToken, gig.getMyGigs);
 app.post('/gigs', verifyToken, gig.createGig);
