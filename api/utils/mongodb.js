@@ -1,3 +1,5 @@
+import 'node:net';
+import 'node:tls';
 import { MongoClient, ObjectId } from 'mongodb';
 
 let client;
