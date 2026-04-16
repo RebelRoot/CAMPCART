@@ -35,23 +35,33 @@ function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  // Listen for Turnstile callbacks
+  // Proper React integration for Turnstile
   React.useEffect(() => {
-    const handleSuccess = (e) => setTurnstileToken(e.detail);
-    const handleExpire = () => setTurnstileToken("");
-    
-    window.addEventListener('turnstile-success', handleSuccess);
-    window.addEventListener('turnstile-expire', handleExpire);
+    window.onTurnstileSuccess = (token) => setTurnstileToken(token);
+    window.onTurnstileExpire = () => setTurnstileToken("");
+    window.onTurnstileError = (code) => console.error('Turnstile Error:', code);
 
-    // Explicitly trigger render after a short delay to ensure DOM is ready
-    const timer = setTimeout(() => {
-      if (window.renderTurnstile) window.renderTurnstile();
-    }, 500);
+    let checkInterval = setInterval(() => {
+      if (window.turnstile && document.getElementById('turnstile-container')) {
+        clearInterval(checkInterval);
+        try {
+          window.turnstile.render('#turnstile-container', {
+            sitekey: import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAAC-o9YjjMsH5Evjx',
+            callback: 'onTurnstileSuccess',
+            'expired-callback': 'onTurnstileExpire',
+            'error-callback': 'onTurnstileError',
+          });
+        } catch (e) {
+          console.error("Turnstile render failed", e);
+        }
+      }
+    }, 100);
     
     return () => {
-      window.removeEventListener('turnstile-success', handleSuccess);
-      window.removeEventListener('turnstile-expire', handleExpire);
-      clearTimeout(timer);
+      clearInterval(checkInterval);
+      window.onTurnstileSuccess = null;
+      window.onTurnstileExpire = null;
+      window.onTurnstileError = null;
     };
   }, []);
 
@@ -95,25 +105,7 @@ function Login() {
           {error && <div className="error-msg">{error}</div>}
           
           {/* Cloudflare Turnstile Widget Placeholder */}
-          <div id="turnstile-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.2rem 0', background: 'transparent' }}></div>
-
-          <script dangerouslySetInnerHTML={{
-            __html: `
-              window.onTurnstileSuccess = (token) => window.dispatchEvent(new CustomEvent('turnstile-success', { detail: token }));
-              window.onTurnstileExpire = () => window.dispatchEvent(new CustomEvent('turnstile-expire'));
-              window.onTurnstileError = (code) => console.error('Turnstile Error:', code);
-              window.renderTurnstile = function() {
-                if (window.turnstile) {
-                  window.turnstile.render('#turnstile-container', {
-                    sitekey: '${import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAAC-o9YjjMsH5Evjx'}',
-                    callback: 'onTurnstileSuccess',
-                    'expired-callback': 'onTurnstileExpire',
-                    'error-callback': 'onTurnstileError',
-                  });
-                }
-              };
-            `
-          }} />
+          <div id="turnstile-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.2rem 0', background: 'transparent', minHeight: '65px' }}></div>
 
           <button 
             type="submit" 
