@@ -31,6 +31,12 @@ app.use('*', cors({
   exposeHeaders: ['Set-Cookie'],
 }));
 
+// Force No-Cache for migration
+app.use('*', async (c, next) => {
+  await next();
+  c.res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+});
+
 // Auth Routes
 app.post('/auth/register', auth.register);
 app.post('/auth/login', auth.login);
