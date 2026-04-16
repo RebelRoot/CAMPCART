@@ -16,6 +16,11 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: cd api && npm install
+      - name: Check Auth
+        run: npx wrangler whoami
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
