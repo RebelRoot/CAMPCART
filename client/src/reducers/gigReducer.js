@@ -11,6 +11,7 @@ export const INITIAL_STATE = {
     revisionNumber: 0,
     features: [],
     price: 0,
+    codFee: 0,
   };
   
   export const gigReducer = (state, action) => {

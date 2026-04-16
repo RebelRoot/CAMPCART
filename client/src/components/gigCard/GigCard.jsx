@@ -1,61 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./GigCard.scss";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import newRequest from "../../utils/newRequest";
-import { ShimmerPostItem } from "react-shimmer-effects"; // Import ShimmerPostItem
 
 const GigCard = ({ item }) => {
-  const [isLoadingDelayed, setIsLoadingDelayed] = useState(true); // State to manage delayed loading
   const { isLoading, error, data } = useQuery({
-    queryKey: [item.userId],
+    queryKey: ["user", item.userId],
     queryFn: () =>
       newRequest.get(`/users/${item.userId}`).then((res) => {
         return res.data;
       }),
+    enabled: !!item.userId,
   });
 
-  useEffect(() => {
-    // Simulate a delay before displaying the actual content
-    const timer = setTimeout(() => {
-      setIsLoadingDelayed(false);
-    }, 1000); // Adjust the delay time as needed
-
-    return () => clearTimeout(timer); // Cleanup timer on component unmount
-  }, []);
+  // Calculate rating safely
+  const rating = item.starNumber > 0 
+    ? Math.round(item.totalStars / item.starNumber) 
+    : 0;
 
   return (
     <Link to={`/gig/${item._id}`} className="link">
-      {/* Conditionally render the shimmer effect or the GigCard component */}
-      {isLoadingDelayed ? ( // Check for delayed loading state
-        <ShimmerPostItem card title text cta imageWidth={300} 
-        imageHeight={210} />
-      ) : isLoading ? (
-        <ShimmerPostItem card title text cta imageWidth={300} 
-        imageHeight={210}/> // Use shimmer effect while loading
-      ) : error ? (
-        <div className="gigCard">
-          <p>Something went wrong!</p>
+      {isLoading ? (
+        <div className="gigCard shimmer">
+          <div className="img-placeholder"></div>
+          <div className="info-placeholder"></div>
         </div>
       ) : (
         <div className="gigCard">
-          <img src={item.cover} alt="" />
+          <img className="cover" src={item.cover || "/img/noimage.jpg"} alt={item.title} />
           <div className="info">
             <div className="user">
-              <img src={data.img || "/img/noavatar.jpg"} alt="" />
-              <span>{data.username}</span>
+              <img src={data?.img || "https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100"} alt="" />
+              <span>{data?.username || "Unknown User"}</span>
             </div>
             <p>{item.title}</p>
             <div className="star">
               <img src="./img/star.png" alt="" />
-              <span>
-                {!isNaN(item.totalStars / item.starNumber) &&
-                  Math.round(item.totalStars / item.starNumber)}
-              </span>
+              <span>{rating > 0 ? rating : "New"}</span>
             </div>
+            {item.condition && (
+              <span className="condition">{item.condition}</span>
+            )}
           </div>
           <div className="detail">
-            <img src="./img/heart.png" alt="" />
+            <img className="heart" src="./img/heart.png" alt="" />
             <div className="price">
               <span>STARTING AT</span>
               <h2>₹ {item.price}</h2>

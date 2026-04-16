@@ -1,70 +1,99 @@
+@import "../../variables.scss";
+
 .gigs {
   width: 100%;
   display: flex;
   justify-content: center;
+  background-color: white;
+  min-height: 100vh;
 
   .container {
-    width: 90vw;
-    padding: 30px 0px;
+    max-width: 1400px;
+    width: 90%;
+    padding: 60px 0;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 2rem;
 
     .breadcrumbs {
-      font-weight: 350;
+      font-weight: 600;
       text-transform: uppercase;
-      font-size: 13px;
-      color: #555;
+      font-size: 0.75rem;
+      color: var(--primary);
+      letter-spacing: 0.1em;
     }
 
     h1 {
-      color: #222325;
-      font-weight: 550;
+      color: var(--slate-900);
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
 
     p {
-      color: #74767e;
-      font-weight: 450;
+      color: var(--on-surface-variant);
+      font-weight: 400;
+      font-size: 1.1rem;
+      max-width: 800px;
     }
 
     .menu {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin: 2rem 0;
+      background-color: var(--bg-light);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(0, 0, 0, 0.03);
 
       .left {
         display: flex;
         align-items: center;
-        gap: 10px;
-        color: #555;
-        font-weight: 300;
+        gap: 1.5rem;
+        color: var(--slate-900);
+        font-weight: 600;
 
         span {
-          color: #404145;
-          font-weight: 450 !important;
+          font-weight: 700;
         }
 
-        input {
-          padding: 5px;
-          border: 1px solid lightgrey;
-          border-radius: 5px;
-          outline: none;
+        .filter-group {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: white;
+          padding: 0.5rem 1rem;
+          border-radius: var(--radius-md);
+          border: 1px solid var(--indigo-100);
 
-          &::placeholder {
-            color: #acacac;
-            font-weight: 450 !important;
+          input {
+            width: 80px;
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+            color: var(--slate-900);
+
+            &::placeholder {
+              color: var(--indigo-200);
+            }
           }
         }
 
         button {
-          padding: 5px 10px;
-          background-color: #f59330;
+          padding: 0.75rem 1.5rem;
+          background-color: var(--primary);
           color: white;
           border: none;
-          font-weight: 500;
-          border-radius: 5px;
+          font-weight: 700;
+          border-radius: var(--radius-md);
           cursor: pointer;
+          transition: 0.3s all ease;
+
+          &:hover {
+            background-color: var(--indigo-500);
+            box-shadow: 0 4px 12px var(--primary-glow);
+          }
         }
       }
 
@@ -72,81 +101,107 @@
         position: relative;
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 0.75rem;
 
         .sortBy {
-          color: #555;
-          font-weight: 300;
-        }
-
-        .sortType {
+          color: var(--on-surface-variant);
           font-weight: 500;
         }
 
-        img {
-          width: 15px;
+        .sortType {
+          font-weight: 700;
+          color: var(--primary);
           cursor: pointer;
         }
 
+        img {
+          width: 14px;
+          cursor: pointer;
+          transition: 0.3s transform ease;
+          &.open {
+            transform: rotate(180deg);
+          }
+        }
+
         .rightMenu {
-          padding: 20px;
+          padding: 1rem;
           background-color: white;
-          border: 0.5px solid lightgrey;
-          border-radius: 5px;
+          border: 1px solid var(--indigo-50);
+          border-radius: var(--radius-md);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
           position: absolute;
-          top: 30px;
+          top: 45px;
           right: 0;
-          z-index: 9;
+          z-index: 10;
           display: flex;
           flex-direction: column;
-          gap: 20px;
-          color: #555;
+          gap: 0.75rem;
+          min-width: 150px;
 
           span {
             cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--slate-900);
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: 0.2s all ease;
+
+            &:hover {
+              background-color: var(--indigo-50);
+              color: var(--primary);
+            }
           }
         }
       }
     }
 
     .cards {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 90px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 3rem;
+      margin-top: 1rem;
     }
   }
 }
 
-//Form mobile
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .gigs {
     .container {
-      .cards {
-        justify-content: center;
-      }
-
+      padding: 30px 0;
+      h1 { font-size: 1.75rem; }
+      p { font-size: 1rem; }
+      
       .menu {
         flex-direction: column;
-        gap: 20px;
+        gap: 1.5rem;
+        align-items: stretch;
+        padding: 1rem;
+        
         .left {
-          input {
-            width: 40px;
+          flex-direction: column;
+          align-items: stretch;
+          width: 100%;
+          gap: 1rem;
+          
+          .filter-group {
+            justify-content: space-between;
+            input { width: 100px; }
           }
+          
+          button { width: 100%; }
         }
+
+        .right {
+          justify-content: space-between;
+          width: 100%;
+        }
+      }
+
+      .cards {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
       }
     }
   }
-}
-
-.shimmer-card {
-  border-radius: 8px;
-  background-color: transparent !important;
-  box-shadow: none !important;
-  width: 100%;
-}
-
-
-.shimmer-thumbnail {
-  border-radius: 9px;
 }

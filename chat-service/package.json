@@ -1,0 +1,12 @@
+{
+  "name": "chat-service",
+  "version": "1.0.0",
+  "description": "Go Chat Service with Websockets",
+  "main": "main.go",
+  "scripts": {
+    "start": "/usr/local/go/bin/go run main.go"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

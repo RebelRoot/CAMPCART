@@ -1,0 +1,61 @@
+# FerretDB + PostgreSQL Setup for CampCart
+# This replaces MongoDB with FerretDB (MongoDB API) backed by PostgreSQL
+
+version: '3.8'
+
+services:
+  ferretdb:
+    image: ghcr.io/ferretdb/ferretdb:1.21.0
+    container_name: ferretdb
+    ports:
+      - "27017:27017"  # MongoDB wire protocol port
+    environment:
+      - FERRETDB_POSTGRESQL_URL=postgres://postgres:ferretpass@postgres:5432/ferretdb?sslmode=disable
+      - FERRETDB_SETUP_USERNAME=admin
+      - FERRETDB_SETUP_PASSWORD=adminpass
+      - FERRETDB_SETUP_DATABASE=campcart
+      - FERRETDB_LOG_LEVEL=info
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ferret-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: ferret-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ferretpass
+      POSTGRES_DB: ferretdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ferret-network
+
+  # Optional: PostgreSQL Admin UI for debugging
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: ferret-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@campusmarket.com
+      PGADMIN_DEFAULT_PASSWORD: adminpass
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - ferret-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ferret-network:
+    driver: bridge

@@ -1,20 +1,25 @@
 * {
-    .link {
-      text-decoration: none;
-      color: inherit;
-    }
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
 
+body {
+  background-color: white;
+  color: #0F172A;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    
+.link {
+  text-decoration: none;
+  color: inherit;
+}
 
-    @font-face {
-    font-family: 'Domaine Display Narrow Medium Italic';
-    font-style: normal;
-    font-weight: normal;
-    src: local('Domaine Display Narrow Medium Italic'), url('./fonts/DomaineDispNar-MediumItalic.woff') format('woff');
-    }
-    
-
-  
-    
+@font-face {
+  font-family: 'Domaine Display Narrow Medium Italic';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Domaine Display Narrow Medium Italic'), url('./fonts/DomaineDispNar-MediumItalic.woff') format('woff');
+}

@@ -8,10 +8,16 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import getCurrentUser from "../../utils/getCurrentUser.js";
+
 const Add = () => {
+  const currentUser = getCurrentUser();
   const [singleFile, setSingleFile] = useState(undefined);
   const [files, setFiles] = useState([]);
+  const [coverPreview, setCoverPreview] = useState(null);
+  const [galleryPreviews, setGalleryPreviews] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const [state, dispatch] = useReducer(gigReducer, INITIAL_STATE);
 
@@ -31,25 +37,46 @@ const Add = () => {
   };
 
   const handleUpload = async () => {
+    if (!singleFile) {
+      toast.error('❌ Please select a Main Display Thumbnail first!');
+      return;
+    }
+
     setUploading(true);
     try {
       const cover = await upload(singleFile);
   
-      const images = await Promise.all(
+      const images = files.length > 0 ? await Promise.all(
         [...files].map(async (file) => {
           const url = await upload(file);
           return url;
         })
-      );
-      toast.success('Upload successful!');
+      ) : [];
+
+      toast.success('🚀 Images uploaded successfully!');
       dispatch({ type: "ADD_IMAGES", payload: { cover, images } });
     } catch (err) {
-      toast.error('Upload failed. Please try again.');
-      console.log(err);
+      const errorMsg = err.message || err.response?.data?.error?.message || "Upload failed. Check Cloudinary preset or file size.";
+      toast.error(`❌ ${errorMsg}`);
+      console.log("Cloudinary Upload Error:", err);
     }
     setUploading(false);
   };
   
+  const handleCoverChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSingleFile(file);
+      setCoverPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleGalleryChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    setFiles(selectedFiles);
+    const previews = selectedFiles.map(file => URL.createObjectURL(file));
+    setGalleryPreviews(previews);
+  };
 
   const navigate = useNavigate();
 
@@ -60,22 +87,43 @@ const Add = () => {
       return newRequest.post("/gigs", gig);
     },
     onSuccess: () => {
+      // Invalidate all gig-related queries
       queryClient.invalidateQueries(["myGigs"]);
+      queryClient.invalidateQueries(["gigs"]);
+      queryClient.invalidateQueries(["newGigs"]);
+      queryClient.invalidateQueries(["featuredGigs"]);
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+      const errorMsg = error?.response?.data || error?.message || "Failed to create listing";
+      toast.error(errorMsg);
     },
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!state.title || !state.desc || !state.price || !state.cat) {
+      toast.error('Please fill in all required fields (Title, Description, Price, Category)');
+      return;
+    }
+    
+    if (!state.cover) {
+      toast.error('Please upload a cover image first');
+      return;
+    }
+    
+    setSubmitting(true);
+    
     try {
-      await mutation.mutate(state);
-      await new Promise((resolve) => {
-        toast.success('Gig successfully created!', {
-          onClose: () => resolve()
-        });
-      });
+      await mutation.mutateAsync(state);
+      toast.success('Gig successfully created!');
       navigate('/mygigs');
     } catch (error) {
-      toast.error('Error creating gig. Please try again');
+      console.error("Create gig error:", error);
+    } finally {
+      setSubmitting(false);
     }
   };
   
@@ -85,6 +133,13 @@ const Add = () => {
     <div className="add">
       <ToastContainer position="top-center"/>
       <div className="container">
+        {!currentUser?.vpa && (
+           <div className="payment-warning">
+              <h3>⚠️ Payment Setup Required</h3>
+              <p>You must set your <strong>UPI ID</strong> in your profile settings before you can post a Gig. This ensures you can receive payments directly and for free.</p>
+              <button className="settings-btn" onClick={() => navigate("/profile")}>Go to Profile Settings</button>
+           </div>
+        )}
         <h1>Add New Gig</h1>
         <div className="sections">
           <div className="info">
@@ -97,27 +152,89 @@ const Add = () => {
             />
             <label htmlFor="">Category</label>
             <select name="cat" id="cat" onChange={handleChange}>
-              <option value="design">Design</option>
-              <option value="web">Web Development</option>
-              <option value="animation">Animation</option>
-              <option value="music">Music</option>
+              <option value="books">Used Books & Notes</option>
+              <option value="electronics">Electronics & Gadgets</option>
+              <option value="furniture">Furniture</option>
+              <option value="tutoring">Tutoring & Academic Help</option>
+              <option value="assignments">Assignments & Projects</option>
+              <option value="food">Late Night Food</option>
+              <option value="design">Design Help</option>
+              <option value="coding">Coding Help</option>
+              <option value="essentials">Hostel Essentials</option>
+              <option value="services">Other Services</option>
             </select>
-            <div className="images">
-              <div className="imagesInputs">
-                <label htmlFor="">Cover Image</label>
-                <input
-                  type="file"
-                  onChange={(e) => setSingleFile(e.target.files[0])}
-                />
-                <label htmlFor="">Upload Images</label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) => setFiles(e.target.files)}
-                />
+            <label htmlFor="">Item Type</label>
+            <select name="itemType" id="itemType" onChange={handleChange}>
+              <option value="product">Physical Product</option>
+              <option value="service">Service</option>
+              <option value="food">Food Delivery</option>
+            </select>
+            <label htmlFor="">Condition</label>
+            <select name="condition" id="condition" onChange={handleChange}>
+              <option value="new">Brand New</option>
+              <option value="like-new">Like New</option>
+              <option value="good">Good</option>
+              <option value="fair">Fair</option>
+              <option value="poor">Poor</option>
+            </select>
+            <div className="image-sections">
+              <div className="upload-zone primary">
+                <div className="label-group">
+                  <label>✨ Main Display Thumbnail</label>
+                  <p>This is the first image buyers see in the marketplace.</p>
+                </div>
+                <div className="upload-card">
+                  {coverPreview ? (
+                    <div className="preview-box main">
+                      <img src={coverPreview} alt="cover preview" />
+                      <button className="remove-tag" onClick={() => {setCoverPreview(null); setSingleFile(undefined)}}>Change</button>
+                    </div>
+                  ) : (
+                    <label className="drop-box">
+                      <span className="icon">🖼️</span>
+                      <span>Click to select Thumbnail</span>
+                      <input
+                        type="file"
+                        onChange={handleCoverChange}
+                        hidden
+                      />
+                    </label>
+                  )}
+                </div>
               </div>
-              <button onClick={handleUpload}>
-                {uploading ? "uploading" : "Upload"}
+
+              <div className="upload-zone secondary">
+                <div className="label-group">
+                  <label>📸 Additional Gallery Photos</label>
+                  <p>Add more angles or details (Optional).</p>
+                </div>
+                <div className="gallery-grid">
+                  {galleryPreviews.map((url, i) => (
+                    <div key={i} className="gallery-preview">
+                      <img src={url} alt={`gallery ${i}`} />
+                    </div>
+                  ))}
+                  {galleryPreviews.length < 4 && (
+                    <label className="add-more">
+                      <span>+ Add</span>
+                      <input
+                        type="file"
+                        multiple
+                        onChange={handleGalleryChange}
+                        hidden
+                      />
+                    </label>
+                  )}
+                </div>
+              </div>
+
+              <button 
+                type="button"
+                className={`upload-all-btn ${state.cover ? 'finished' : ''}`}
+                onClick={handleUpload} 
+                disabled={uploading}
+              >
+                {uploading ? "Uploading to Cloud..." : state.cover ? "✅ Staged & Ready" : "☁️ Upload selected images"}
               </button>
             </div>
             <label htmlFor="">Description</label>
@@ -129,7 +246,9 @@ const Add = () => {
               rows="16"
               onChange={handleChange}
             ></textarea>
-            <button onClick={handleSubmit}>Create</button>
+            <button onClick={handleSubmit} disabled={submitting || !currentUser?.vpa}>
+              {!currentUser?.vpa ? "Setup UPI to Create" : submitting ? "Creating..." : "Create"}
+            </button>
           </div>
           <div className="details">
             <label htmlFor="">Service Title</label>
@@ -148,8 +267,10 @@ const Add = () => {
               cols="30"
               rows="10"
             ></textarea>
-            <label htmlFor="">Delivery Time (e.g. 3 days)</label>
-            <input type="number" name="deliveryTime" onChange={handleChange} />
+            <label htmlFor="">Delivery/Response Time (hours)</label>
+            <input type="number" name="deliveryTime" onChange={handleChange} placeholder="e.g. 24 for 1 day" />
+            <label htmlFor="">Stock/Quantity</label>
+            <input type="number" name="stock" onChange={handleChange} defaultValue="1" />
             <label htmlFor="">Revision Number</label>
             <input
               type="number"
@@ -177,6 +298,8 @@ const Add = () => {
             </div>
             <label htmlFor="">Price</label>
             <input type="number" onChange={handleChange} name="price" />
+            <label htmlFor="">COD Fee (optional late charge)</label>
+            <input type="number" onChange={handleChange} name="codFee" placeholder="e.g. 5" />
           </div>
         </div>
       </div>

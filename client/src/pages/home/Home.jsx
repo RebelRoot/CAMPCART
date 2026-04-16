@@ -4,13 +4,22 @@ import Featured from "../../components/featured/Featured";
 import TrustedBy from "../../components/trustedBy/TrustedBy";
 import Slide from "../../components/slide/Slide";
 import CatCard from "../../components/catCard/CatCard";
-import ProjectCard from "../../components/projectCard/ProjectCard";
-import { cards, projects } from "../../data";
+import GigCard from "../../components/gigCard/GigCard";
+import { cards } from "../../data";
 import { useState, useEffect } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import newRequest from "../../utils/newRequest";
 
 function Home() {
   const [slidesToShow, setSlidesToShow] = useState(5);
   const [arrowsScroll, setArrowsScroll] = useState(5);
+
+  // Fetch newly listed items from API
+  const { data: gigs, isLoading } = useQuery({
+    queryKey: ["newGigs"],
+    queryFn: () =>
+      newRequest.get("/gigs/new?limit=8").then((res) => res.data),
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,55 +44,65 @@ function Home() {
       <Featured />
       <TrustedBy />
       <div className="pop_services">
-        <span className="title1">Popular Services</span>
+        <span className="title1">Popular on Campus</span>
         <Slide slidesToShow={slidesToShow} arrowsScroll={arrowsScroll}>
           {cards.map((card) => (
             <CatCard key={card.id} card={card} />
           ))}
         </Slide>
       </div>
+      <div className="projects">
+        <span className="title1">Recent listings on CampCart</span>
+        {isLoading ? (
+          <div className="loading">Loading...</div>
+        ) : gigs?.length > 0 ? (
+          <Slide slidesToShow={slidesToShow} arrowsScroll={arrowsScroll}>
+            {gigs.map((gig) => (
+              <GigCard key={gig._id} item={gig} />
+            ))}
+          </Slide>
+        ) : (
+          <div className="no-listings">No listings yet. Be the first to sell!</div>
+        )}
+      </div>
       <div className="features">
         <div className="container">
           <div className="item">
-            <h1>A whole world of freelance talent at your fingertips</h1>
+            <h1>Everything you need for campus life</h1>
             <div className="title">
               <img src="./img/check.png" alt="" />
               The best for every budget
             </div>
             <p>
-              Find high-quality services at every price point. No hourly rates,
-              just project-based pricing.
+              Find affordable textbooks, electronics, and furniture from seniors. Save money on every purchase.
             </p>
             <div className="title">
               <img src="./img/check.png" alt="" />
               Quality work done quickly
             </div>
             <p>
-              Find the right freelancer to begin working on your project within
-              minutes.
+              Get help with assignments, projects, and tutoring from your seniors within minutes.
             </p>
             <div className="title">
               <img src="./img/check.png" alt="" />
               Protected payments, every time
             </div>
             <p>
-              Always know what you'll pay upfront. Your payment isn't released
-              until you approve the work.
+              Meet in person on campus for secure exchanges. Pay only after you inspect the item.
             </p>
             <div className="title">
               <img src="./img/check.png" alt="" />
-              24/7 support
+              Late night food delivery
             </div>
             <p>
-              Find high-quality services at every price point. No hourly rates,
-              just project-based pricing.
+              Late night hunger? Get Maggi, snacks & food delivered to your hostel room till 2 AM.
             </p>
           </div>
           <div className="item">
             <video
               src="https://fiverr-res.cloudinary.com/video/upload/t_fiverr_hd/vmvv3czyk2ifedefkau7"
               controls
-              poster="https://fiverr-res.cloudinary.com/q_auto,f_auto,w_700,dpr_1.0/v1/attachments/generic_asset/asset/089e3bb9352f90802ad07ad9f6a4a450-1599517407052/selling-proposition-still-1400-x1.png"
+              poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=700"
             ></video>
           </div>
         </div>
@@ -180,14 +199,14 @@ function Home() {
         <div className="container">
           <div className="item">
             <h1>
-              Gigex <i>business</i>
+              CampCart <i>Hostel</i>
             </h1>
             <h1>
-              A business solution designed for <i>teams</i>
+              Late night delivery for <i>hungry students</i>
             </h1>
             <p>
-              Upgrade to a curated experience packed with tools and benefits,
-              dedicated to businesses
+              Get Maggi, snacks, and beverages delivered to your hostel room
+              when the canteen is closed
             </p>
             <div className="title">
               <div className="purpule">
@@ -205,7 +224,7 @@ function Home() {
                   ></path>
                 </svg>
               </div>
-              Connect to freelancers with proven business experience
+              Connect to sellers in your own hostel or nearby hostels
             </div>
 
             <div className="title">
@@ -224,7 +243,7 @@ function Home() {
                   ></path>
                 </svg>
               </div>
-              Get matched with the perfect talent by a customer success manager
+              Find exactly what you need - textbooks, gadgets, or food
             </div>
 
             <div className="title">
@@ -243,14 +262,14 @@ function Home() {
                   ></path>
                 </svg>
               </div>
-              Manage teamwork and boost productivity with one powerful workspace
+              Support your fellow students - buy from seniors, sell to juniors
             </div>
             <button>Learn More</button>
           </div>
           <div className="item">
             <img
-              src="https://fiverr-res.cloudinary.com/q_auto,f_auto,w_870,dpr_1.0/v1/attachments/generic_asset/asset/51c35c7cecf75e6a5a0110d27909a2f5-1690202609364/EN.png"
-              alt=""
+              src="https://www.architecture-asia.com/Assets/userfiles/images/progjects/fig1(2).jpg"
+              alt="St. Andrews Girls Hostel"
             />
           </div>
         </div>
@@ -259,44 +278,36 @@ function Home() {
         <div className="container">
           <div className="right">
             <img
-              src="https://fiverr-res.cloudinary.com/q_auto,f_auto,w_560,dpr_1.0/v1/attachments/generic_asset/asset/42a6fd208670a0361b38bd72b47b9317-1599519173395/testimonial-video-still-haerfest.jpg"
+              src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=600"
               alt=""
             />
           </div>
           <div className="left">
             <div className="title3">
-              <span>Caitlin Tormey, Chief Commercial Officer</span>
+              <span>Rohan Sharma, 3rd Year Computer Science</span>
               <hr />
               <img
-                src="https://fiverr-res.cloudinary.com/npm-assets/@fiverr/logged_out_homepage_perseus/naadam-logo-x2.a79031d.png"
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"
                 alt=""
               />
             </div>
             <div className="desc">
               <span>
-                "We've used Gigex for Shopify web development, graphic design,
-                and backend web development. Working with Gigex makes my job a
-                little easier every day."
+                "I've saved thousands on textbooks and electronics through CampCart.
+                Sold my old laptop to a junior and found a great tutor for my programming course.
+                It's the best platform for students!"
               </span>
             </div>
           </div>
         </div>
       </div>
-      <div className="projects">
-        <span className="title1">Inspiring work made on Gigex</span>
-        <Slide slidesToShow={slidesToShow} arrowsScroll={arrowsScroll}>
-          {projects.map((card) => (
-            <ProjectCard key={card.id} card={card} />
-          ))}
-        </Slide>
-      </div>
       <div className="banner">
         <div className="container">
           <div className="content">
             <span>
-              Suddenly it's all so <span>doable</span>.
+              Buy, Sell, Learn - <span>All on Campus</span>.
             </span>
-            <button>Join Gigex</button>
+            <button>Join CampCart</button>
           </div>
         </div>
       </div>

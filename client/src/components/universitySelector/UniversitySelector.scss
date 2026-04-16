@@ -1,0 +1,65 @@
+@import "../../variables.scss";
+
+.universitySelector {
+  position: relative;
+  width: 100%;
+
+  input {
+    width: 100%;
+    padding: 20px;
+    border: 1px solid var(--indigo-100);
+    border-radius: var(--radius-md);
+    outline: none;
+    font-size: 1rem;
+    transition: 0.2s all ease;
+
+    &:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-glow);
+    }
+  }
+
+  .results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid var(--indigo-100);
+    border-radius: var(--radius-md);
+    margin-top: 5px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+    .result-item {
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--slate-900);
+      transition: 0.2s all ease;
+
+      &:hover {
+        background-color: var(--indigo-50);
+        color: var(--primary);
+      }
+
+      .country {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--on-surface-variant);
+        font-weight: 400;
+        margin-top: 2px;
+      }
+    }
+
+    .loading, .no-results {
+      padding: 20px;
+      text-align: center;
+      color: var(--on-surface-variant);
+      font-size: 0.9rem;
+    }
+  }
+}

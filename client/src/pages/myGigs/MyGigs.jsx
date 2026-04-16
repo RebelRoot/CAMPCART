@@ -14,12 +14,10 @@ function MyGigs() {
   const { isLoading, error, data } = useQuery({
     queryKey: ["myGigs"],
     queryFn: () =>
-      newRequest.get(`/gigs?userId=${currentUser._id}`).then((res) => {
-        return res.data;
-      }),
-      onError: (err) => {
-        console.error("Error fetching data:", err);
-      },
+      newRequest.get(`/gigs/mygigs`).then((res) => res.data),
+    onError: (err) => {
+      console.error("Error fetching my gigs:", err);
+    },
   });
 
 
@@ -39,16 +37,34 @@ function MyGigs() {
   return (
     <div className="myGigs">
       {isLoading ? (
-        "loading"
+        <div className="container">Loading your listings...</div>
       ) : error ? (
-        "error"
+        <div className="container">
+          <h1>Error loading your listings</h1>
+          <p>Please try refreshing the page</p>
+        </div>
+      ) : data.length === 0 ? (
+        <div className="container">
+          <div className="title">
+            <h1>My Listings</h1>
+            {currentUser?.isSeller && (
+              <Link to="/add">
+                <button>Add New Listing</button>
+              </Link>
+            )}
+          </div>
+          <p>You haven't created any listings yet.</p>
+          <Link to="/add">
+            <button>Create your first listing</button>
+          </Link>
+        </div>
       ) : (
         <div className="container">
           <div className="title">
-            <h1>Gigs</h1>
-            {currentUser.isSeller && (
+            <h1>My Listings</h1>
+            {currentUser?.isSeller && (
               <Link to="/add">
-                <button>Add New Gig</button>
+                <button>Add New Listing</button>
               </Link>
             )}
           </div>

@@ -15,8 +15,7 @@ function Featured() {
         <div className="left">
           <div className="title">
             <h1>
-              Connecting you with the perfect <span> freelance</span> service,
-              instantly
+              Buy, Sell & Learn on <span> Campus</span> - Your Student Marketplace
             </h1>
           </div>
           <div className="search">
@@ -24,7 +23,7 @@ function Featured() {
               <img src="./img/search.png" alt="" />
               <input
                 type="text"
-                placeholder="Search for any service..."
+                placeholder="Search for books, electronics, tutoring..."
                 onChange={(e) => setInput(e.target.value)}
               />
             </div>
@@ -32,10 +31,10 @@ function Featured() {
           </div>
           <div className="popular">
             <span>Popular:</span>
-            <button>Web Design</button>
-            <button>WordPress</button>
-            <button>Logo Design</button>
-            <button>AI Services</button>
+            <button onClick={() => navigate("/gigs?cat=books")}>Used Books</button>
+            <button onClick={() => navigate("/gigs?cat=electronics")}>Laptops</button>
+            <button onClick={() => navigate("/gigs?cat=tutoring")}>Tutoring</button>
+            <button onClick={() => navigate("/gigs?cat=food")}>Late Night Food</button>
           </div>
         </div>
         <div className="right">

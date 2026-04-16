@@ -1,218 +1,264 @@
+@import "../../variables.scss";
+
 .navbar {
   display: flex;
-  z-index: 99;
   flex-direction: column;
-  align-items: center;
-  background-color: #9a530b;
-  color: white;
-  transition: 0.5s all ease;
+  z-index: 1000;
+  background-color: white;
+  color: var(--slate-900);
+  transition: 0.3s all ease;
   position: sticky;
   top: 0;
-  width: 100vw;
-  margin: 0;
-  padding: 0;
+  width: 100%;
+  border-bottom: 1px solid var(--indigo-50);
   box-sizing: border-box;
 
-  &.active {
-    background-color: white;
-    color: black;
-
-    .link {
-      button {
-        border-color: #f59330 !important;
-        color: #000000 !important;
-      }
-    }
-  }
-
   .container {
-    width: 90vw;
-    margin: 0;
-    padding: 0;
+    max-width: 1400px;
+    width: 90%;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    padding: 2vw 0;
-    position: relative;
-
-    .hamburger {
-      display: none;
-    }
+    align-items: center;
+    height: 80px;
+    box-sizing: border-box;
 
     .logo {
-      font-size: 3.4vw;
-      font-weight: bold;
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      cursor: pointer;
+      
+      .link {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
 
       .text {
+        color: var(--slate-900);
       }
-
       .dot {
-        color: #f59330;
+        color: var(--primary);
       }
+    }
+
+    .hamburger {
+        display: none;
+        cursor: pointer;
+        img { width: 24px; }
     }
 
     .links {
       display: flex;
       align-items: center;
-      gap: 2vw;
-      font-weight: 500;
+      gap: 2rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+
+      span {
+        cursor: pointer;
+        transition: 0.2s color ease;
+        &:hover { color: var(--primary); }
+      }
 
       .user {
         display: flex;
         align-items: center;
-        gap: 1vw;
+        gap: 0.5rem;
         cursor: pointer;
         position: relative;
 
         img {
-          width: 3.2vw;
-          height: 3.2vw;
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
           object-fit: cover;
+          border: 2px solid var(--indigo-50);
         }
 
         .options {
           position: absolute;
-          top: 5vw;
+          top: 100%;
           right: 0;
-          padding: 2vw;
+          margin-top: 1rem;
+          padding: 0.75rem;
           background-color: white;
-          border-radius: 1vw;
-          border: 0.1vw solid lightgray;
-          color: black;
+          border-radius: var(--radius-md);
+          border: 1px solid var(--indigo-100);
+          box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+          min-width: 200px;
           display: flex;
           flex-direction: column;
-          gap: 1vw;
-          width: 10vw;
+          gap: 0.25rem;
+          z-index: 1001;
+
+          .wallet-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #10B98115 0%, #05966910 100%);
+            border-radius: var(--radius-sm);
+            margin-bottom: 0.25rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.2s all ease;
+
+            &:hover {
+              background: linear-gradient(135deg, #10B98125 0%, #05966920 100%);
+            }
+
+            .wallet-icon {
+              width: 36px;
+              height: 36px;
+              background: #10B981;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .wallet-details {
+              display: flex;
+              flex-direction: column;
+
+              .wallet-label {
+                font-size: 0.75rem;
+                color: var(--text-muted);
+                font-weight: 500;
+              }
+
+              .wallet-balance {
+                font-size: 1.1rem;
+                color: #059669;
+                font-weight: 700;
+              }
+            }
+          }
+
+          .wallet-divider {
+            border: none;
+            border-top: 1px solid var(--indigo-100);
+            margin: 0.5rem 0;
+          }
+
+          .link {
+              padding: 0.5rem 0.75rem;
+              border-radius: var(--radius-sm);
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              &:hover { background-color: var(--bg-light); color: var(--primary); }
+
+              .counter {
+                background-color: #ef4444;
+                color: white;
+                border-radius: 50%;
+                width: 18px;
+                height: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 10px;
+                font-weight: 800;
+                margin-left: 5px;
+              }
+          }
         }
       }
 
       button {
-        color: white;
-        padding: 1vw 2vw;
-        border-radius: 0.5vw;
-        border: 0.1vw solid white;
+        color: var(--primary);
+        padding: 0.5rem 1.5rem;
+        border-radius: var(--radius-md);
+        border: 2px solid var(--primary);
+        font-weight: 800;
         cursor: pointer;
         background-color: transparent;
+        transition: 0.2s all ease;
 
-        &:hover {
-          background-color: #f59330;
-          border-color: #f59330;
-          transition: ease-in-out, 0.7s;
+        &:hover { 
+            background-color: var(--primary); 
+            color: white; 
         }
       }
     }
   }
 
-  hr {
-    width: 100vw;
-    height: 0;
-    border: 0.05vw solid lightgray;
-  }
+  hr { width: 100%; border: none; border-top: 1px solid var(--indigo-50); margin: 0; }
 
   .menu {
-    width: 90vw;
-    padding: 1vw 0;
+    max-width: 1400px;
+    width: 90%;
+    margin: 0 auto;
+    padding: 0.6rem 0;
     display: flex;
     justify-content: space-between;
-    font-weight: 400;
-    color: gray;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--on-surface-variant);
+    box-sizing: border-box;
+
+    .menuLink {
+        &:hover { color: var(--primary); }
+    }
   }
 }
 
 @media (max-width: 980px) {
-  .navbar {
-    .menu {
-      display: none;
-    }
-
-    hr {
-      display: none;
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .navbar {
-    background-color: white;
-    color: black;
-    .menu {
-      display: none;
-    }
-
-    hr {
-      display: none;
-    }
-    .container {
-      display: flex;
-
-      .logo {
-        display: flex;
-        flex-direction: row;
-      }
-      .links {
-        padding-top: 60px;
-        gap: 20px;
-        position: absolute;
-        flex-direction: column;
-        top: 0vw;
-        left: 20vw;
-        color: black;
-        background-color: white;
-        height: 100vh;
-        width: 80vw;
-
-        &.show {
-          display: none;
+    .navbar .menu, .navbar hr { display: none; }
+    
+    .navbar .container {
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
+            z-index: 1998;
         }
 
-        span {
-          width: 80%;
-          height: 40px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 6px;
-
-          &:hover {
-            background-color: lightgray;
-          }
+        .hamburger { 
+            display: block; 
+            z-index: 2000;
         }
 
-        .user {
-          width: 80%;
-          display: flex;
-          justify-content: center;
-          gap: 30px;
+        .links {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            height: 100vh;
+            width: 80%;
+            max-width: 300px;
+            background-color: white;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 80px 2rem;
+            gap: 1.5rem;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 1999;
 
-          img {
-            width: 50px;
-            height: 50px;
-          }
-          span {
-            width: 40%;
-          }
+            &.show {
+                right: 0;
+            }
 
-          .options {
-            left: 22vw;
-            top: 16vw;
-            width: 28vw;
-          }
+            .user {
+                width: 100%;
+                .options {
+                    position: static;
+                    box-shadow: none;
+                    border: none;
+                    margin-top: 0.5rem;
+                    padding-left: 1rem;
+                    min-width: unset;
+                    background: var(--bg-light);
+                }
+            }
         }
-      }
-
-      .hamburger {
-        display: block;
-        position: relative;
-        z-index: 20;
-        img {
-          width: 27px;
-        }
-      }
-
-      .logo {
-        font-size: 5vw;
-        font-weight: bold;
-      }
     }
-  }
 }

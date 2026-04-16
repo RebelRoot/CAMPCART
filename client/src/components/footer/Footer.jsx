@@ -9,16 +9,15 @@ function Footer() {
         <div className="top">
           <div className="item">
             <h2>Categories</h2>
-            <span>Graphics & Design</span>
-            <span>Digital Marketing</span>
-            <span>Writing & Translation</span>
-            <span>Video & Animation</span>
-            <span>Music & Audio</span>
-            <span>Programming & Tech</span>
-            <span>Data</span>
-            <span>Business</span>
-            <span>Lifestyle</span>
-            <span>Photography</span>
+            <span>Used Books</span>
+            <span>Electronics</span>
+            <span>Furniture</span>
+            <span>Tutoring</span>
+            <span>Assignments</span>
+            <span>Late Night Food</span>
+            <span>Design Help</span>
+            <span>Coding Help</span>
+            <span>Hostel Essentials</span>
             <span>Sitemap</span>
           </div>
           <div className="item">
@@ -35,8 +34,8 @@ function Footer() {
             <h2>Support</h2>
             <span>Help & Support</span>
             <span>Trust & Safety</span>
-            <span>Selling on Gigex</span>
-            <span>Buying on Gigex</span>
+            <span>Selling on Campus</span>
+            <span>Buying on Campus</span>
           </div>
           <div className="item">
             <h2>Community</h2>
@@ -53,24 +52,24 @@ function Footer() {
             <span>Community Standards</span>
           </div>
           <div className="item">
-            <h2>More From Gigex</h2>
-            <span>Gigex Business</span>
-            <span>Gigex Pro</span>
-            <span>Gigex Logo Maker</span>
-            <span>Gigex Guides</span>
-            <span>Get Inspired</span>
-            <span>Gigex Select</span>
-            <span>ClearVoice</span>
-            <span>Gigex Workspace</span>
-            <span>Learn</span>
-            <span>Working Not Working</span>
+            <h2>More From Campus</h2>
+            <span>Hostel Delivery</span>
+            <span>Campus Pro</span>
+            <span>Study Groups</span>
+            <span>Campus Events</span>
+            <span>Lost & Found</span>
+            <span>Ride Sharing</span>
+            <span>Internships</span>
+            <span>Campus News</span>
+            <span>Clubs</span>
+            <span>Alumni</span>
           </div>
         </div>
         <hr />
         <div className="bottom">
           <div className="left">
-            <h2>Gigex</h2>
-            <span>© Gigex International Ltd. 2023</span>
+            <h2>CampCart</h2>
+            <span>© CampCart copyright 2026</span>
           </div>
           <div className="right">
             <div className="social">

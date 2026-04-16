@@ -1,0 +1,5 @@
+name = "camp-cash-client"
+pages_build_output_dir = "dist"
+
+[vars]
+# API_URL = "https://api.yourdomain.com"

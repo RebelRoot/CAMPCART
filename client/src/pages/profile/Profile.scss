@@ -1,0 +1,489 @@
+@import "../../variables.scss";
+
+.profile {
+  background-color: var(--bg-light);
+  min-height: 100vh;
+  padding: 40px 0;
+
+  .container {
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .header-section {
+      background: white;
+      padding: 30px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--indigo-100);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+
+        .avatar-container {
+          position: relative;
+          img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--indigo-50);
+          }
+          .verified-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            border: 2px solid white;
+          }
+        }
+
+        .text-info {
+          h1 { font-size: 2rem; font-weight: 800; color: var(--slate-900); margin-bottom: 5px; }
+          .role-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--indigo-100);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+          }
+          .college { color: var(--on-surface-variant); font-size: 1rem; }
+        }
+      }
+
+      .edit-btn {
+        padding: 12px 24px;
+        background: white;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        font-weight: 800;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: 0.2s all ease;
+        &:hover { background: var(--primary); color: white; }
+      }
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 30px;
+
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--indigo-100);
+        margin-bottom: 30px;
+        h2 { font-size: 1.25rem; font-weight: 800; color: var(--slate-900); margin-bottom: 20px; border-bottom: 1px solid var(--indigo-50); padding-bottom: 10px; }
+      }
+
+      // Camp Cash Advertisement Banner
+      .campcash-ad {
+        background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%);
+        border-radius: var(--radius-lg);
+        padding: 20px 30px;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        border: 1px solid #86efac;
+        box-shadow: 0 4px 15px -3px rgba(34, 197, 94, 0.2);
+
+        .ad-logo {
+          width: 80px;
+          height: 80px;
+          object-fit: contain;
+          flex-shrink: 0;
+        }
+
+        .ad-text {
+          h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #166534;
+            margin-bottom: 4px;
+          }
+          p {
+            font-size: 1rem;
+            color: #22c55e;
+            font-weight: 600;
+          }
+        }
+      }
+
+      // Compact Banner Style Wallet
+      .wallet-banner {
+        background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #A855F7 100%);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        margin-bottom: 30px;
+        box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.4);
+        position: relative;
+        min-height: 140px;
+
+        .wallet-content {
+          position: relative;
+          z-index: 2;
+          padding: 20px 25px;
+          color: white;
+
+          .wallet-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+
+            .wallet-brand {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              background: rgba(255,255,255,0.15);
+              padding: 6px 14px;
+              border-radius: 20px;
+              backdrop-filter: blur(10px);
+
+              .brand-text {
+                font-weight: 700;
+                font-size: 0.9rem;
+              }
+            }
+
+            .wallet-balance-section {
+              text-align: center;
+
+              .balance-label {
+                display: block;
+                font-size: 0.7rem;
+                opacity: 0.8;
+                margin-bottom: 2px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+              }
+
+              .balance-amount {
+                font-size: 2rem;
+                font-weight: 800;
+                text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+              }
+            }
+
+            .add-money-btn {
+              background: white;
+              color: #6366F1;
+              border: none;
+              padding: 10px 20px;
+              border-radius: 20px;
+              font-weight: 700;
+              font-size: 0.85rem;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              transition: all 0.3s ease;
+              box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+
+              &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+              }
+
+              &:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
+              }
+
+              .spin {
+                animation: spin 1s linear infinite;
+              }
+            }
+          }
+
+          .wallet-actions-bar {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+
+            .action-btn {
+              flex: 1;
+              background: rgba(255,255,255,0.1);
+              border: 1px solid rgba(255,255,255,0.2);
+              padding: 10px 8px;
+              border-radius: var(--radius-md);
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              gap: 8px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              color: white;
+              backdrop-filter: blur(10px);
+              font-size: 0.85rem;
+
+              .action-icon {
+                width: 28px;
+                height: 28px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+
+                &.send { background: rgba(255,255,255,0.2); }
+                &.receive { background: rgba(255,255,255,0.1); }
+                &.history { background: rgba(255,255,255,0.2); }
+              }
+
+              span {
+                font-size: 0.8rem;
+                font-weight: 600;
+              }
+
+              &:hover:not(.receive-btn) {
+                background: rgba(255,255,255,0.2);
+                transform: translateY(-2px);
+
+                .action-icon {
+                  transform: scale(1.1);
+                }
+              }
+
+              &.receive-btn {
+                cursor: default;
+                opacity: 0.6;
+              }
+            }
+          }
+        }
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        .info-item {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          label { font-size: 0.75rem; font-weight: 800; color: var(--on-surface-variant); text-transform: uppercase; }
+          span { font-size: 1rem; color: var(--slate-900); font-weight: 600; }
+        }
+      }
+
+      .actions-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        .action-card {
+           display: flex;
+           align-items: center;
+           gap: 15px;
+           padding: 15px;
+           background: white;
+           border-radius: var(--radius-md);
+           border: 1px solid var(--indigo-100);
+           text-decoration: none;
+           transition: 0.2s all ease;
+           img { width: 24px; opacity: 0.6; }
+           span { font-weight: 700; color: var(--slate-900); }
+           &:hover { border-color: var(--primary); background: var(--bg-light); color: var(--primary); }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .profile {
+    .container {
+      width: 95%;
+      .header-section {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        .user-info { flex-direction: column; gap: 15px; }
+      }
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .profile .main-content .wallet-card .wallet-header {
+    flex-direction: column;
+    text-align: center;
+    .wallet-info-section { margin: 10px 0; }
+  }
+}
+
+// Modal Styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 30px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--slate-900);
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--indigo-100);
+    border-radius: var(--radius-md);
+    margin-bottom: 15px;
+    font-size: 1rem;
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+  }
+
+  .search-results {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+
+    .user-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--indigo-100);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+
+      span {
+        flex: 1;
+        font-weight: 600;
+      }
+
+      input {
+        width: 100px;
+        margin: 0;
+      }
+
+      button {
+        padding: 8px 16px;
+        background: var(--primary);
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        font-weight: 600;
+        cursor: pointer;
+        &:hover { opacity: 0.9; }
+        &:disabled { opacity: 0.5; cursor: not-allowed; }
+      }
+    }
+  }
+
+  .transaction-list {
+    max-height: 300px;
+    overflow-y: auto;
+
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid var(--indigo-100);
+
+      .tx-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .tx-type {
+          font-size: 0.75rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          color: var(--on-surface-variant);
+        }
+
+        .tx-user {
+          font-weight: 600;
+          color: var(--slate-900);
+        }
+
+        .tx-date {
+          font-size: 0.75rem;
+          color: var(--on-surface-variant);
+        }
+      }
+
+      .tx-amount {
+        font-weight: 800;
+        font-size: 1.1rem;
+        &.positive { color: #10B981; }
+        &.negative { color: #EF4444; }
+      }
+    }
+  }
+
+  .close-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--indigo-100);
+    color: var(--slate-900);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 15px;
+    &:hover { background: var(--indigo-200); }
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

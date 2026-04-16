@@ -13,12 +13,24 @@ import Orders from "./pages/orders/Orders";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
 import MyGigs from "./pages/myGigs/MyGigs";
+import EditProfile from "./pages/editProfile/EditProfile";
+import Profile from "./pages/profile/Profile";
 import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 import Pay from "./pages/pay/Pay";
 import Success from "./pages/success/Success";
+import Verified from "./pages/verified/Verified";
+import Dashboard from "./pages/dashboard/Dashboard";
+import AdminPanel from "./pages/adminPanel/AdminPanel";
+import Bill from "./pages/bill/Bill";
+import Track from "./pages/track/Track";
+import Schemes from "./pages/schemes/Schemes";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   const queryClient = new QueryClient();
 
@@ -29,6 +41,7 @@ function App() {
           <Navbar />
           <Outlet />
           <Footer />
+          <ToastContainer />
         </QueryClientProvider>
       </div>
     );
@@ -42,6 +55,10 @@ function App() {
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/schemes",
+          element: <Schemes />,
         },
         {
           path: "/gigs",
@@ -86,6 +103,34 @@ function App() {
         {
           path: "/success",
           element: <Success />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
+        },
+        {
+          path: "/edit-profile",
+          element: <EditProfile />,
+        },
+        {
+          path: "/verified-stores",
+          element: <Verified />,
+        },
+        {
+          path: "/dashboard",
+          element: <Dashboard />,
+        },
+        {
+          path: "/admin-panel",
+          element: <AdminPanel />,
+        },
+        {
+          path: "/bill/:id",
+          element: <Bill />,
+        },
+        {
+          path: "/track/:id",
+          element: <Track />,
         },
       ],
     },

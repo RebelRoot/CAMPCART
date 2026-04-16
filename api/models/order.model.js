@@ -31,9 +31,64 @@ const OrderSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    paymentMethod: {
+      type: String,
+      enum: ["prepaid", "cod"],
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending_payment", "pending_confirmation", "processing", "shipped", "completed", "cancelled"],
+      default: "pending_payment",
+    },
+    shippedAt: {
+      type: Date,
+      required: false,
+    },
+    completedAt: {
+      type: Date,
+      required: false,
+    },
+    completedBy: {
+      type: String,
+      enum: ["seller", "buyer"],
+      required: false,
+    },
+    billGenerated: {
+      type: Boolean,
+      default: false,
+    },
+    billData: {
+      type: Schema.Types.Mixed,
+      required: false,
+    },
     payment_intent: {
       type: String,
-      required: true,
+      required: false,
+    },
+    invoiceUrl: {
+      type: String,
+      required: false,
+    },
+    paymentReference: {
+      type: String,
+      required: false,
+    },
+    paymentScreenshot: {
+      type: String,
+      required: false,
+    },
+    isUserConfirmed: {
+      type: Boolean,
+      default: false,
+    },
+    deliveryTimeline: {
+      type: String,
+      required: false,
+    },
+    lateCharge: {
+      type: Number,
+      default: 0,
     },
   },
   {

@@ -1,0 +1,11 @@
+tunnel: f6983d5c-5255-491c-8b63-3b315e4eabab
+credentials-file: /Users/paras/.cloudflared/f6983d5c-5255-491c-8b63-3b315e4eabab.json
+
+ingress:
+  - hostname: campcart.online
+    service: http://localhost:5173
+  - hostname: api.campcart.online
+    service: http://localhost:8800
+  - hostname: chat.campcart.online
+    service: http://localhost:8801
+  - service: http_status:404

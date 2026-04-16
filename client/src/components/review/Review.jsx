@@ -25,7 +25,7 @@ const Review = ({ review }) => {
         "error"
       ) : (
         <div className="user">
-          <img className="pp" src={data.img || "/img/noavatar.jpg"} alt="" />
+          <img className="pp" src={data.img || "https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=100"} alt="" />
           <div className="info">
             <span>{capitalizeFirstLetter(data.username)}</span>
             <div className="country">
