@@ -42,6 +42,9 @@ function Login() {
     
     window.addEventListener('turnstile-success', handleSuccess);
     window.addEventListener('turnstile-expire', handleExpire);
+
+    // DEBUG: Check if Site Key is reaching the browser
+    console.log("Turnstile Key Check:", import.meta.env.VITE_TURNSTILE_SITE_KEY ? "EXISTS" : "UNDEFINED");
     
     return () => {
       window.removeEventListener('turnstile-success', handleSuccess);
@@ -89,10 +92,10 @@ function Login() {
           {error && <div className="error-msg">{error}</div>}
           
           {/* Cloudflare Turnstile Widget */}
-          <div className="captcha-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.8rem 0', minHeight: '65px' }}>
+          <div className="captcha-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.4rem 0' }}>
             <div 
               className="cf-turnstile" 
-              data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+              data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY || "0x4AAAAAAC-o9YjjMsH5Evjx"}
               data-callback="onTurnstileSuccess"
               data-expired-callback="onTurnstileExpire"
               data-error-callback="onTurnstileError"
