@@ -43,12 +43,15 @@ function Login() {
     window.addEventListener('turnstile-success', handleSuccess);
     window.addEventListener('turnstile-expire', handleExpire);
 
-    // DEBUG: Check if Site Key is reaching the browser
-    console.log("Turnstile Key Check:", import.meta.env.VITE_TURNSTILE_SITE_KEY ? "EXISTS" : "UNDEFINED");
+    // Explicitly trigger render after a short delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      if (window.renderTurnstile) window.renderTurnstile();
+    }, 500);
     
     return () => {
       window.removeEventListener('turnstile-success', handleSuccess);
       window.removeEventListener('turnstile-expire', handleExpire);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -91,22 +94,26 @@ function Login() {
 
           {error && <div className="error-msg">{error}</div>}
           
-          {/* Cloudflare Turnstile Widget */}
-          <div className="captcha-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.4rem 0' }}>
-            <div 
-              className="cf-turnstile" 
-              data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY || "0x4AAAAAAC-o9YjjMsH5Evjx"}
-              data-callback="onTurnstileSuccess"
-              data-expired-callback="onTurnstileExpire"
-              data-error-callback="onTurnstileError"
-            ></div>
-          </div>
+          {/* Cloudflare Turnstile Widget Placeholder */}
+          <div id="turnstile-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.4rem 0' }}></div>
 
           <script dangerouslySetInnerHTML={{
             __html: `
               window.onTurnstileSuccess = (token) => window.dispatchEvent(new CustomEvent('turnstile-success', { detail: token }));
               window.onTurnstileExpire = () => window.dispatchEvent(new CustomEvent('turnstile-expire'));
               window.onTurnstileError = (code) => console.error('Turnstile Error:', code);
+              
+              // Helper to render manually if script loaded late
+              window.renderTurnstile = function() {
+                if (window.turnstile) {
+                  window.turnstile.render('#turnstile-container', {
+                    sitekey: '0x4AAAAAAC-o9YjjMsH5Evjx',
+                    callback: 'onTurnstileSuccess',
+                    'expired-callback': 'onTurnstileExpire',
+                    'error-callback': 'onTurnstileError',
+                  });
+                }
+              };
             `
           }} />
 
