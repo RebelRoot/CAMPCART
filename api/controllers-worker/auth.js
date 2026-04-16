@@ -41,8 +41,11 @@ export const login = async (c) => {
 
     const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
     const result = await fetch(url, {
-      body: formData,
+      body: `secret=${encodeURIComponent(env.TURNSTILE_SECRET_KEY)}&response=${encodeURIComponent(body.turnstileToken)}&remoteip=${encodeURIComponent(c.req.header('CF-Connecting-IP') || '')}`,
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     });
 
     const outcome = await result.json();

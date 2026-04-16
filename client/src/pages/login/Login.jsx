@@ -17,7 +17,7 @@ function Login() {
       const res = await newRequest.post("/auth/login", { 
         username, 
         password,
-        turnstileToken // Send token to backend
+        turnstileToken 
       });
       localStorage.setItem("currentUser", JSON.stringify(res.data));
       navigate("/")
@@ -35,11 +35,18 @@ function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  // Listen for Turnstile callback
+  // Listen for Turnstile callbacks
   React.useEffect(() => {
-    const handleTurnstile = (e) => setTurnstileToken(e.detail);
-    window.addEventListener('turnstile-success', handleTurnstile);
-    return () => window.removeEventListener('turnstile-success', handleTurnstile);
+    const handleSuccess = (e) => setTurnstileToken(e.detail);
+    const handleExpire = () => setTurnstileToken("");
+    
+    window.addEventListener('turnstile-success', handleSuccess);
+    window.addEventListener('turnstile-expire', handleExpire);
+    
+    return () => {
+      window.removeEventListener('turnstile-success', handleSuccess);
+      window.removeEventListener('turnstile-expire', handleExpire);
+    };
   }, []);
 
   return (
@@ -82,20 +89,21 @@ function Login() {
           {error && <div className="error-msg">{error}</div>}
           
           {/* Cloudflare Turnstile Widget */}
-          <div className="captcha-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.5rem 0' }}>
+          <div className="captcha-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.8rem 0', minHeight: '65px' }}>
             <div 
               className="cf-turnstile" 
               data-sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
               data-callback="onTurnstileSuccess"
+              data-expired-callback="onTurnstileExpire"
+              data-error-callback="onTurnstileError"
             ></div>
           </div>
 
           <script dangerouslySetInnerHTML={{
             __html: `
-              window.onTurnstileSuccess = function(token) {
-                const event = new CustomEvent('turnstile-success', { detail: token });
-                window.dispatchEvent(event);
-              };
+              window.onTurnstileSuccess = (token) => window.dispatchEvent(new CustomEvent('turnstile-success', { detail: token }));
+              window.onTurnstileExpire = () => window.dispatchEvent(new CustomEvent('turnstile-expire'));
+              window.onTurnstileError = (code) => console.error('Turnstile Error:', code);
             `
           }} />
 
@@ -104,7 +112,7 @@ function Login() {
             className="login-btn"
             disabled={!turnstileToken}
           >
-            Sign In
+            {turnstileToken ? 'Sign In' : 'Complete Verification'}
           </button>
           
           <div className="footer">
