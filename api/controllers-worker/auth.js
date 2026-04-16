@@ -8,6 +8,15 @@ export const register = async (c) => {
   const body = await c.req.json();
   const users = db('users', c.env);
   
+  if (!body.username || !body.password) {
+    throw createError(400, "Username and password are required!");
+  }
+
+  const existingUser = await users.findOne({ username: body.username });
+  if (existingUser) {
+    throw createError(409, "User with this username already exists.");
+  }
+
   const hash = await bcrypt.hash(body.password, 5);
   const role = body.isSeller ? 'seller' : 'buyer';
   
@@ -19,8 +28,13 @@ export const register = async (c) => {
     updatedAt: new Date(),
   };
 
-  await users.insertOne(newUser);
-  return c.text("User has been created.", 201);
+  try {
+    await users.insertOne(newUser);
+    return c.text("User has been created.", 201);
+  } catch (err) {
+    console.error("Database Error during registration:", err);
+    throw createError(500, "Database connection failed. Please try again.");
+  }
 };
 
 export const login = async (c) => {
