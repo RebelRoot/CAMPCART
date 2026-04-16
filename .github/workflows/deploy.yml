@@ -43,6 +43,10 @@ jobs:
         with:
           node-version: 20
       - name: Install & Build
+        env:
+          VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
+          VITE_CLOUDINARY_CLOUD_NAME: ${{ secrets.VITE_CLOUDINARY_CLOUD_NAME }}
+          VITE_CLOUDINARY_UPLOAD_PRESET: ${{ secrets.VITE_CLOUDINARY_UPLOAD_PRESET }}
         run: |
           cd client
           npm install --legacy-peer-deps
