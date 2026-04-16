@@ -24,7 +24,7 @@ const app = new Hono().basePath('/api');
 app.use('*', logger());
 app.use('*', prettyJSON());
 app.use('*', cors({
-  origin: ['https://campcart.online', 'https://camp-cash-frontend.pages.dev'],
+  origin: ['https://campcart.online', 'https://www.campcart.online', 'https://camp-cash-frontend.pages.dev'],
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
