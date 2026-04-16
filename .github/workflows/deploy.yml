@@ -41,7 +41,7 @@ jobs:
       - name: Install & Build
         run: |
           cd client
-          npm install
+          npm install --legacy-peer-deps
           npm run build
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
