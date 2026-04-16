@@ -47,9 +47,9 @@ function Login() {
         try {
           window.turnstile.render('#turnstile-container', {
             sitekey: import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAAC-o9YjjMsH5Evjx',
-            callback: 'onTurnstileSuccess',
-            'expired-callback': 'onTurnstileExpire',
-            'error-callback': 'onTurnstileError',
+            callback: window.onTurnstileSuccess,
+            'expired-callback': window.onTurnstileExpire,
+            'error-callback': window.onTurnstileError,
           });
         } catch (e) {
           console.error("Turnstile render failed", e);
@@ -110,9 +110,9 @@ function Login() {
           <button 
             type="submit" 
             className="login-btn"
-            disabled={!turnstileToken && import.meta.env.PROD} // Only lock in production
+            disabled={!turnstileToken && import.meta.env.PROD}
           >
-            {turnstileToken ? 'Sign In' : (import.meta.env.DEV ? 'Sign In' : 'Complete Verification')}
+            Sign In
           </button>
           
           <div className="login-footer">
