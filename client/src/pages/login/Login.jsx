@@ -75,7 +75,10 @@ function Login() {
           </div>
           
           <div className="input-group">
-            <label>Username</label>
+            <label style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              Username
+              <span style={{ fontSize: "0.75rem", fontWeight: "normal", color: "#888", textTransform: "none" }}>(case sensitive)</span>
+            </label>
             <input
               name="username"
               type="text"

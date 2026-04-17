@@ -284,18 +284,18 @@ function Home() {
           </div>
           <div className="left">
             <div className="title3">
-              <span>Rohan Sharma, 3rd Year Computer Science</span>
+              <span>Mitesh Gupta, MBA 1st Year, SAITM, Gurugram</span>
               <hr />
               <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"
+                src="https://i.postimg.cc/XvsF8BJ3/Screenshot-2025-12-26-at-2-14-45-AM.png"
                 alt=""
               />
             </div>
             <div className="desc">
               <span>
-                "I've saved thousands on textbooks and electronics through CampCart.
-                Sold my old laptop to a junior and found a great tutor for my programming course.
-                It's the best platform for students!"
+                "I’ve saved thousands on food items and electronics through CampCart.
+                I sold my old laptop to a junior and found a great tutor for my marketing course.
+                It’s the best platform for students!"
               </span>
             </div>
           </div>
