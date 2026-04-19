@@ -15,8 +15,7 @@ import (
 )
 
 var (
-	// Default secret if not provided in env
-	jwtSecret = []byte(getEnv("JWT_SECRET", "your_jwt_secret_key_change_this_in_production"))
+	jwtSecret []byte
 	upgrader  = websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool { return true },
 	}
@@ -27,6 +26,14 @@ func getEnv(key, fallback string) string {
 		return value
 	}
 	return fallback
+}
+
+func mustGetEnv(key string) string {
+	value, ok := os.LookupEnv(key)
+	if !ok || value == "" {
+		log.Fatalf("Required environment variable %q is not set", key)
+	}
+	return value
 }
 
 
@@ -160,6 +167,8 @@ func broadcastHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	jwtSecret = []byte(mustGetEnv("JWT_SECRET"))
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ws", wsHandler)
 	mux.HandleFunc("/broadcast", broadcastHandler)

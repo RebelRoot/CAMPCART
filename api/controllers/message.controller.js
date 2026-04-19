@@ -33,8 +33,9 @@ export const createMessage = async (req, res, next) => {
 
     // BROADCAST TO GO CHAT SERVICE
     try {
+      const chatServiceUrl = process.env.CHAT_SERVICE_URL || "http://localhost:8801";
       const recipientId = req.isSeller ? updatedConvo.buyerId : updatedConvo.sellerId;
-      await axios.post("http://localhost:8801/broadcast", {
+      await axios.post(`${chatServiceUrl}/broadcast`, {
         to: recipientId,
         payload: {
           ...savedMessage._doc,

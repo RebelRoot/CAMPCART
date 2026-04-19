@@ -46,7 +46,7 @@ function Login() {
         clearInterval(checkInterval);
         try {
           window.turnstile.render('#turnstile-container', {
-            sitekey: import.meta.env.DEV ? '1x00000000000000000000AA' : '0x4AAAAAAC-o9YjjMsH5Evjx',
+            sitekey: import.meta.env.DEV ? '1x00000000000000000000AA' : import.meta.env.VITE_TURNSTILE_SITEKEY,
             callback: window.onTurnstileSuccess,
             'expired-callback': window.onTurnstileExpire,
             'error-callback': window.onTurnstileError,
