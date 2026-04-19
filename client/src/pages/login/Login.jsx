@@ -36,7 +36,18 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   // Proper React integration for Turnstile
+  const sitekey = import.meta.env.DEV 
+    ? '1x00000000000000000000AA' 
+    : import.meta.env.VITE_TURNSTILE_SITEKEY;
+
   React.useEffect(() => {
+    // Skip Turnstile if no sitekey configured
+    if (!sitekey || sitekey === 'undefined') {
+      console.log('Turnstile skipped: No sitekey configured');
+      setTurnstileToken('disabled'); // Allow form submission
+      return;
+    }
+
     window.onTurnstileSuccess = (token) => setTurnstileToken(token);
     window.onTurnstileExpire = () => setTurnstileToken("");
     window.onTurnstileError = (code) => console.error('Turnstile Error:', code);
@@ -46,7 +57,7 @@ function Login() {
         clearInterval(checkInterval);
         try {
           window.turnstile.render('#turnstile-container', {
-            sitekey: import.meta.env.DEV ? '1x00000000000000000000AA' : import.meta.env.VITE_TURNSTILE_SITEKEY,
+            sitekey: sitekey,
             callback: window.onTurnstileSuccess,
             'expired-callback': window.onTurnstileExpire,
             'error-callback': window.onTurnstileError,
@@ -63,7 +74,7 @@ function Login() {
       window.onTurnstileExpire = null;
       window.onTurnstileError = null;
     };
-  }, []);
+  }, [sitekey]);
 
   return (
     <div className="login">
@@ -107,13 +118,15 @@ function Login() {
 
           {error && <div className="error-msg">{error}</div>}
           
-          {/* Cloudflare Turnstile Widget Placeholder */}
-          <div id="turnstile-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.2rem 0', background: 'transparent', minHeight: '65px' }}></div>
+          {/* Cloudflare Turnstile Widget Placeholder - Only shown if sitekey configured */}
+          {sitekey && sitekey !== 'undefined' && (
+            <div id="turnstile-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.2rem 0', background: 'transparent', minHeight: '65px' }}></div>
+          )}
 
           <button 
             type="submit" 
             className="login-btn"
-            disabled={!turnstileToken && import.meta.env.PROD}
+            disabled={!turnstileToken && import.meta.env.PROD && sitekey && sitekey !== 'undefined'}
           >
             Sign In
           </button>
