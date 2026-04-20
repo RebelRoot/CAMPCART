@@ -35,25 +35,17 @@ function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  // Proper React integration for Turnstile
-  const rawSitekey = import.meta.env.VITE_TURNSTILE_SITEKEY;
-  const sitekey = import.meta.env.DEV 
-    ? '1x00000000000000000000AA' 
-    : rawSitekey;
+  // Resolve sitekey — DEV always uses the test key, PROD uses the env var
+  const sitekey = import.meta.env.DEV
+    ? '1x00000000000000000000AA'
+    : (import.meta.env.VITE_TURNSTILE_SITEKEY || '');
 
-  // Debug log to see what value is actually loaded
-  console.log('Turnstile debug:', { 
-    DEV: import.meta.env.DEV, 
-    rawSitekey, 
-    sitekey,
-    type: typeof rawSitekey 
-  });
+  const turnstileEnabled = Boolean(sitekey);
 
   React.useEffect(() => {
-    // Skip Turnstile if no sitekey configured (handle undefined, null, empty string, or 'undefined')
-    if (!sitekey || sitekey === 'undefined' || sitekey === '') {
-      console.log('Turnstile skipped: No sitekey configured');
-      setTurnstileToken('disabled'); // Allow form submission
+    if (!turnstileEnabled) {
+      // No sitekey configured — skip widget, allow form to submit freely
+      setTurnstileToken('bypass');
       return;
     }
 
@@ -66,7 +58,7 @@ function Login() {
         clearInterval(checkInterval);
         try {
           window.turnstile.render('#turnstile-container', {
-            sitekey: sitekey,
+            sitekey,
             callback: window.onTurnstileSuccess,
             'expired-callback': window.onTurnstileExpire,
             'error-callback': window.onTurnstileError,
@@ -76,14 +68,14 @@ function Login() {
         }
       }
     }, 100);
-    
+
     return () => {
       clearInterval(checkInterval);
       window.onTurnstileSuccess = null;
       window.onTurnstileExpire = null;
       window.onTurnstileError = null;
     };
-  }, [sitekey]);
+  }, [turnstileEnabled]);
 
   return (
     <div className="login">
@@ -127,15 +119,15 @@ function Login() {
 
           {error && <div className="error-msg">{error}</div>}
           
-          {/* Cloudflare Turnstile Widget Placeholder - Only shown if sitekey configured */}
-          {sitekey && sitekey !== 'undefined' && (
+          {/* Cloudflare Turnstile Widget — only shown when sitekey is configured */}
+          {turnstileEnabled && (
             <div id="turnstile-container" style={{ display: 'flex', justifyContent: 'center', margin: '0.2rem 0', background: 'transparent', minHeight: '65px' }}></div>
           )}
 
           <button 
             type="submit" 
             className="login-btn"
-            disabled={!turnstileToken && import.meta.env.PROD && sitekey && sitekey !== 'undefined'}
+            disabled={turnstileEnabled && !turnstileToken}
           >
             Sign In
           </button>

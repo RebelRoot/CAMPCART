@@ -44,8 +44,10 @@ export const login = async (c) => {
 
   // Verify Cloudflare Turnstile CAPTCHA
   if (env.TURNSTILE_SECRET_KEY) {
-    if (!body.turnstileToken) {
+    const token = body.turnstileToken;
+    if (!token || token === 'bypass') {
       throw createError(400, "Security check required!");
+    }
     }
 
     const formData = new FormData();
