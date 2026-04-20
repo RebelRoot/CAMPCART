@@ -36,13 +36,22 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
 
   // Proper React integration for Turnstile
+  const rawSitekey = import.meta.env.VITE_TURNSTILE_SITEKEY;
   const sitekey = import.meta.env.DEV 
     ? '1x00000000000000000000AA' 
-    : import.meta.env.VITE_TURNSTILE_SITEKEY;
+    : rawSitekey;
+
+  // Debug log to see what value is actually loaded
+  console.log('Turnstile debug:', { 
+    DEV: import.meta.env.DEV, 
+    rawSitekey, 
+    sitekey,
+    type: typeof rawSitekey 
+  });
 
   React.useEffect(() => {
-    // Skip Turnstile if no sitekey configured
-    if (!sitekey || sitekey === 'undefined') {
+    // Skip Turnstile if no sitekey configured (handle undefined, null, empty string, or 'undefined')
+    if (!sitekey || sitekey === 'undefined' || sitekey === '') {
       console.log('Turnstile skipped: No sitekey configured');
       setTurnstileToken('disabled'); // Allow form submission
       return;
