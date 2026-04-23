@@ -42,26 +42,17 @@ export const login = async (c) => {
   const env = c.env;
   const users = db('users', env);
 
-  // Verify Cloudflare Turnstile CAPTCHA
+  // Verify Cloudflare Turnstile CAPTCHA (only when secret key is configured)
   if (env.TURNSTILE_SECRET_KEY) {
     const token = body.turnstileToken;
     if (!token || token === 'bypass') {
       throw createError(400, "Security check required!");
     }
-    }
 
-    const formData = new FormData();
-    formData.append('secret', env.TURNSTILE_SECRET_KEY);
-    formData.append('response', body.turnstileToken);
-    formData.append('remoteip', c.req.header('CF-Connecting-IP') || '');
-
-    const url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
-    const result = await fetch(url, {
-      body: `secret=${encodeURIComponent(env.TURNSTILE_SECRET_KEY)}&response=${encodeURIComponent(body.turnstileToken)}&remoteip=${encodeURIComponent(c.req.header('CF-Connecting-IP') || '')}`,
+    const result = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${encodeURIComponent(env.TURNSTILE_SECRET_KEY)}&response=${encodeURIComponent(token)}&remoteip=${encodeURIComponent(c.req.header('CF-Connecting-IP') || '')}`,
     });
 
     const outcome = await result.json();

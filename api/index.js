@@ -63,13 +63,13 @@ app.get('/gigs/my', verifyToken, gig.getMyGigs);
 app.post('/gigs', verifyToken, gig.createGig);
 app.delete('/gigs/:id', verifyToken, gig.deleteGig);
 
-// Order Routes
+// Order
 app.get('/orders', verifyToken, order.getOrders);
 app.get('/orders/single/:id', verifyToken, order.getOrder);
 app.post('/orders/create-p2p/:id', verifyToken, order.createP2POrder);
 app.put('/orders/confirm/:id', verifyToken, order.sellerConfirmOrder);
 
-// Conversation Routes
+// Conversation
 app.get('/conversations', verifyToken, conversation.getConversations);
 app.get('/conversations/single/:id', verifyToken, conversation.getSingleConversation);
 app.post('/conversations', verifyToken, conversation.createConversation);
