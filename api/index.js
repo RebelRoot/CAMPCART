@@ -24,18 +24,19 @@ const app = new Hono().basePath('/api');
 app.use('*', logger());
 app.use('*', prettyJSON());
 
-app.use('*', cors({
-  origin: (origin, c) => {
-    const allowed = (c.env.CORS_ORIGIN || 'https://campcart.online')
-      .split(',')
-      .map(o => o.trim());
-    return allowed.includes(origin) ? origin : allowed[0];
-  },
-  credentials: true,
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  exposeHeaders: ['Set-Cookie'],
-}));
+app.use('*', async (c, next) => {
+  const allowed = (c.env.CORS_ORIGIN || 'https://campcart.online')
+    .split(',')
+    .map(o => o.trim());
+
+  return cors({
+    origin: (origin) => allowed.includes(origin) ? origin : null,
+    credentials: true,
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    exposeHeaders: ['Set-Cookie'],
+  })(c, next);
+});
 
 // Force No-Cache for migration
 app.use('*', async (c, next) => {
@@ -57,11 +58,8 @@ app.delete('/users/:id', verifyToken, user.deleteUser);
 
 // Gig Routes
 app.get('/gigs', gig.getGigs);
-app.get('/gigs/new', gig.getNewGigs);
-app.get('/gigs/featured', gig.getFeaturedGigs);
-app.get('/gigs/category/:cat', gig.getGigsByCategory);
-app.get('/gigs/single/:id', gig.getGig);
 app.get('/gigs/my', verifyToken, gig.getMyGigs);
+app.get('/gigs/single/:id', gig.getGig);
 app.post('/gigs', verifyToken, gig.createGig);
 app.delete('/gigs/:id', verifyToken, gig.deleteGig);
 
