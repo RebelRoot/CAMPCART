@@ -23,12 +23,14 @@ const app = new Hono().basePath('/api');
 // Middleware
 app.use('*', logger());
 app.use('*', prettyJSON());
-const allowedOrigins = (process.env.CORS_ORIGIN || 'https://campcart.online')
-  .split(',')
-  .map(o => o.trim());
 
 app.use('*', cors({
-  origin: allowedOrigins,
+  origin: (origin, c) => {
+    const allowed = (c.env.CORS_ORIGIN || 'https://campcart.online')
+      .split(',')
+      .map(o => o.trim());
+    return allowed.includes(origin) ? origin : allowed[0];
+  },
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
