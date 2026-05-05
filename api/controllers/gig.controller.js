@@ -8,8 +8,8 @@ export const createGig = async (req, res, next) => {
   }
 
   const newGig = new Gig({
-    userId: req.userId,
     ...req.body,
+    userId: req.userId,
   });
 
   try {
@@ -34,7 +34,7 @@ export const deleteGig = async (req, res, next) => {
 export const getGig = async (req, res, next) => {
   try {
     const gig = await Gig.findById(req.params.id);
-    if (!gig) next(createError(404, "Gig not found!"));
+    if (!gig) return next(createError(404, "Gig not found!"));
     res.status(200).send(gig);
   } catch (err) {
     next(err);

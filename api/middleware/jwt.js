@@ -2,9 +2,10 @@ import jwt from "jsonwebtoken";
 import createError from "../utils/createError.js";
 
 export const verifyToken = (req, res, next) => {
-  const token = req.cookies.accessToken;
+  // Try cookie first, then Authorization header (for mobile clients)
+  const token = req.cookies.accessToken || 
+    (req.headers.authorization?.startsWith('Bearer ') && req.headers.authorization.split(' ')[1]);
   if (!token) {
-    console.log("No accessToken found in cookies. Available cookies:", req.cookies);
     return next(createError(401,"You are not authenticated!"))
   }
 

@@ -14,8 +14,8 @@ export const createGig = async (c) => {
   const gigs = db('gigs', c.env);
 
   const newGig = {
-    userId,
     ...body,
+    userId,
     createdAt: new Date(),
     updatedAt: new Date(),
   };

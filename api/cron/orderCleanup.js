@@ -20,15 +20,17 @@ const startOrderCleanupJob = () => {
       const expiredOrders = await Order.find({
         status: "pending_payment",
         createdAt: { $lt: fiveMinutesAgo },
-        $or: [
-          { paymentScreenshot: { $exists: false } },
-          { paymentScreenshot: null },
-          { paymentScreenshot: "" },
-        ],
-        $or: [
-          { paymentReference: { $exists: false } },
-          { paymentReference: null },
-          { paymentReference: "" },
+        $and: [
+          { $or: [
+            { paymentScreenshot: { $exists: false } },
+            { paymentScreenshot: null },
+            { paymentScreenshot: "" },
+          ]},
+          { $or: [
+            { paymentReference: { $exists: false } },
+            { paymentReference: null },
+            { paymentReference: "" },
+          ]},
         ],
       });
 

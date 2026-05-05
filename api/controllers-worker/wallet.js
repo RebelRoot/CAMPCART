@@ -31,7 +31,7 @@ export const sendMoney = async (c) => {
   if (!sender) throw createError(404, "Sender not found!");
   if (!receiver) throw createError(404, "Receiver not found!");
   if (sender._id.toString() === receiver._id.toString()) throw createError(400, "Cannot send money to yourself!");
-  if (sender.campCash < amount) throw createError(400, "Insufficient Camp Cash balance!");
+  if ((sender.campCash || 0) < amount) throw createError(400, "Insufficient Camp Cash balance!");
 
   // Update balances
   await users.findByIdAndUpdate(sender._id.toString(), { $inc: { campCash: -amount } });
@@ -67,6 +67,8 @@ export const addMoney = async (c) => {
 
   await users.findByIdAndUpdate(userId, { $inc: { campCash: amount } });
 
+  const updatedUser = await users.findById(userId);
+
   const transaction = {
     senderId: "system",
     receiverId: { "$oid": userId },
@@ -81,6 +83,6 @@ export const addMoney = async (c) => {
 
   return c.json({
     message: `Successfully added ₹${amount}`,
-    newBalance: (amount || 0) + (amount), // Rough estimate for response
+    newBalance: updatedUser.campCash || 0,
   }, 200);
 };

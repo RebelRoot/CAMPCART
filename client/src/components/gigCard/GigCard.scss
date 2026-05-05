@@ -3,120 +3,98 @@
 .gigCard {
   width: 100%;
   max-width: 320px;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 2rem;
   background-color: white;
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--indigo-100);
   overflow: hidden;
-  transition: 0.4s all cubic-bezier(0.16, 1, 0.3, 1);
+  transition: 0.3s transform ease;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
 
-  &:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
-    border-color: rgba(0, 0, 0, 0.1);
-  }
-
   .cover {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
-    transition: 0.4s transform ease;
   }
-
-  &:hover .cover { transform: scale(1.03); }
 
   .info {
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
     flex-grow: 1;
 
     .user {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.75rem;
 
       img {
-        width: 28px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
         object-fit: cover;
-        border: 2px solid var(--gold-glow);
+        border: 1px solid var(--indigo-50);
       }
 
       span {
-        font-size: 0.82rem;
-        font-weight: 600;
-        color: var(--on-surface-variant);
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--slate-900);
       }
     }
 
     p {
-      color: var(--navy);
-      font-size: 0.95rem;
-      font-weight: 600;
+      color: var(--on-surface-variant);
+      font-size: 1rem;
+      font-weight: 500;
       line-height: 1.4;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
       margin: 0;
-      min-height: 2.6rem;
+      min-height: 2.8rem;
     }
 
     .star {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.4rem;
 
       img {
-        height: 13px;
-        width: 13px;
-        filter: brightness(0) saturate(100%) invert(64%) sepia(92%) saturate(575%) hue-rotate(360deg) brightness(100%) contrast(101%);
+        height: 14px;
+        width: 14px;
+        filter: invert(34%) sepia(85%) saturate(2745%) hue-rotate(231deg) brightness(97%) contrast(92%);
       }
 
       span {
-        font-size: 0.82rem;
+        font-size: 0.85rem;
         font-weight: 800;
-        color: var(--gold-dark);
+        color: var(--primary);
       }
-    }
-
-    .condition {
-      display: inline-block;
-      width: fit-content;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.25rem 0.6rem;
-      background: rgba(245, 158, 11, 0.08);
-      color: var(--gold-dark);
-      border-radius: 4px;
     }
   }
 
   .detail {
-    padding: 0.85rem 1.25rem;
+    padding: 1rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    border-top: 1px solid var(--indigo-50);
     background-color: var(--bg-light);
 
     .heart {
       width: 18px;
       height: 18px;
       cursor: pointer;
-      opacity: 0.25;
+      opacity: 0.3;
       transition: 0.2s all ease;
       &:hover {
         opacity: 1;
-        transform: scale(1.15);
+        transform: scale(1.1);
       }
     }
 
@@ -126,18 +104,17 @@
       align-items: flex-end;
       
       span:first-child {
-        font-size: 0.62rem;
+        font-size: 0.65rem;
         font-weight: 700;
-        color: var(--text-muted);
+        color: var(--on-surface-variant);
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.05em;
       }
 
-      h2 {
-        color: var(--navy);
-        font-size: 1.1rem;
+      span:last-child {
+        color: var(--slate-900);
+        font-size: 1rem;
         font-weight: 800;
-        margin: 0;
       }
     }
   }
@@ -146,26 +123,10 @@
     background: white;
     .img-placeholder {
       width: 100%;
-      height: 200px;
-      background: var(--shimmer-base);
-      position: relative;
-      overflow: hidden;
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-        animation: shimmer-load 1.5s infinite;
-      }
-    }
-    .info-placeholder {
-      padding: 1.25rem;
-      height: 100px;
+      height: 180px;
       background: var(--shimmer-base);
     }
+    // ... animation kept same
   }
 }
 

@@ -103,7 +103,7 @@ export const login = async (c) => {
     maxAge: 60 * 60 * 24
   });
 
-  return c.json(info, 200);
+  return c.json({ ...info, accessToken: token }, 200);
 };
 
 export const logout = async (c) => {

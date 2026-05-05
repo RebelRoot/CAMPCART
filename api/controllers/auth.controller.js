@@ -64,7 +64,8 @@ export const login = async (req, res, next) => {
         state: user.state,
         affiliation: user.affiliation,
       },
-      process.env.JWT_KEY
+      process.env.JWT_KEY,
+      { expiresIn: '24h' }
     );
 
     const { password, ...info } = user._doc;
@@ -77,7 +78,7 @@ export const login = async (req, res, next) => {
         sameSite: "lax", // Good for cross-port localhost
       })
       .status(200)
-      .send(info);
+      .send({ ...info, accessToken: token });
   } catch (err) {
     console.error("LOGIN ERROR [API]:", err);
     console.error("Error stack:", err.stack);

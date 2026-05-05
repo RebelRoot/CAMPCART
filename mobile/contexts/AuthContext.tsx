@@ -58,14 +58,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (username: string, password: string) => {
     const res = await api.post('/auth/login', { username, password });
     const userData = res.data;
-    await SecureStore.setItemAsync('currentUser', JSON.stringify(userData));
-    // Store cookie token if returned
-    if (res.headers['set-cookie']) {
-      const tokenMatch = res.headers['set-cookie'][0]?.match(/accessToken=([^;]+)/);
-      if (tokenMatch) {
-        await SecureStore.setItemAsync('accessToken', tokenMatch[1]);
-      }
+    // Store token from response body (more reliable than set-cookie header in React Native)
+    if (userData.accessToken) {
+      await SecureStore.setItemAsync('accessToken', userData.accessToken);
     }
+    await SecureStore.setItemAsync('currentUser', JSON.stringify(userData));
     setUser(userData);
   };
 
