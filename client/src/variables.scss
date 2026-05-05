@@ -1,17 +1,46 @@
 :root {
-  --primary: #4F46E5;
-  --primary-glow: rgba(79, 70, 229, 0.15);
+  // Primary palette — Deep Navy + Gold
+  --navy: #0A192F;
+  --navy-light: #112240;
+  --navy-800: #1B2C4A;
+  --gold: #F59E0B;
+  --gold-light: #FCD34D;
+  --gold-dark: #D97706;
+  --gold-glow: rgba(245, 158, 11, 0.15);
+
+  // Legacy mappings (keep existing components working)
+  --primary: #F59E0B;
+  --primary-glow: rgba(245, 158, 11, 0.15);
+
+  // Surfaces
   --bg-light: #F8FAFC;
   --bg-dark: #FFFFFF;
-  --on-surface-variant: #64748B;
+  --surface-elevated: #FFFFFF;
+
+  // Text
   --slate-900: #0F172A;
-  --indigo-50: #EEF2FF;
-  --indigo-100: #E0E7FF;
-  --indigo-200: #C7D2FE;
-  --indigo-600: #4F46E5;
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --on-surface-variant: #64748B;
+  --text-muted: #94A3B8;
+
+  // Accents (kept for compatibility)
+  --indigo-50: #F0F4FF;
+  --indigo-100: #E2E8F0;
+  --indigo-200: #CBD5E1;
+  --indigo-600: #D97706;
+
+  // Radii
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  // Shadows
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.12);
+
+  // Shimmer
   --shimmer-base: #f1f5f9;
   --shimmer-highlight: #f8fafc;
 }

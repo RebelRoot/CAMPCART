@@ -1,97 +1,86 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.scss";
 
 function Footer() {
   return (
-    <div className="footer">
+    <footer className="footer">
       <div className="container">
-        <hr />
-        <div className="top">
-          <div className="item">
-            <h2>Categories</h2>
-            <span>Used Books</span>
-            <span>Electronics</span>
-            <span>Furniture</span>
-            <span>Tutoring</span>
-            <span>Assignments</span>
-            <span>Late Night Food</span>
-            <span>Design Help</span>
-            <span>Coding Help</span>
-            <span>Hostel Essentials</span>
-            <span>Sitemap</span>
+        <div className="footer-top">
+          <div className="brand-col">
+            <div className="logo">
+              <span className="text">CampCart</span>
+              <span className="dot">.</span>
+            </div>
+            <p className="tagline">
+              The #1 campus marketplace for students. Buy, sell, and connect with your college community.
+            </p>
+            <div className="newsletter">
+              <input type="email" placeholder="Your email address" />
+              <button>Subscribe</button>
+            </div>
+            <div className="social">
+              <a href="#" aria-label="Twitter">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+              <a href="#" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+              </a>
+              <a href="#" aria-label="LinkedIn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              </a>
+            </div>
           </div>
-          <div className="item">
-            <h2>About</h2>
-            <span>Press & News</span>
-            <span>Partnerships</span>
-            <span>Privacy Policy</span>
-            <span>Terms of Service</span>
-            <span>Intellectual Property Claims</span>
-            <span>Investor Relations</span>
-            <span>Contact Sales</span>
-          </div>
-          <div className="item">
-            <h2>Support</h2>
-            <span>Help & Support</span>
-            <span>Trust & Safety</span>
-            <span>Selling on Campus</span>
-            <span>Buying on Campus</span>
-          </div>
-          <div className="item">
-            <h2>Community</h2>
-            <span>Customer Success Stories</span>
-            <span>Community hub</span>
-            <span>Forum</span>
-            <span>Events</span>
-            <span>Blog</span>
-            <span>Influencers</span>
-            <span>Affiliates</span>
-            <span>Podcast</span>
-            <span>Invite a Friend</span>
-            <span>Become a Seller</span>
-            <span>Community Standards</span>
-          </div>
-          <div className="item">
-            <h2>More From Campus</h2>
-            <span>Hostel Delivery</span>
-            <span>Campus Pro</span>
-            <span>Study Groups</span>
-            <span>Campus Events</span>
-            <span>Lost & Found</span>
-            <span>Ride Sharing</span>
-            <span>Internships</span>
-            <span>Campus News</span>
-            <span>Clubs</span>
-            <span>Alumni</span>
+
+          <div className="links-grid">
+            <div className="item">
+              <h3>Categories</h3>
+              <Link to="/gigs?cat=books">Used Books</Link>
+              <Link to="/gigs?cat=electronics">Electronics</Link>
+              <Link to="/gigs?cat=furniture">Furniture</Link>
+              <Link to="/gigs?cat=tutoring">Tutoring</Link>
+              <Link to="/gigs?cat=food">Late Night Food</Link>
+              <Link to="/gigs?cat=essentials">Hostel Essentials</Link>
+            </div>
+            <div className="item">
+              <h3>Company</h3>
+              <a href="#">About Us</a>
+              <a href="#">Press & News</a>
+              <a href="#">Careers</a>
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Service</a>
+            </div>
+            <div className="item">
+              <h3>Support</h3>
+              <a href="#">Help Center</a>
+              <a href="#">Trust & Safety</a>
+              <a href="#">Selling Guide</a>
+              <a href="#">Buying Guide</a>
+              <a href="#">Contact Us</a>
+            </div>
+            <div className="item">
+              <h3>Community</h3>
+              <a href="#">Blog</a>
+              <a href="#">Events</a>
+              <a href="#">Forum</a>
+              <a href="#">Become a Seller</a>
+              <a href="#">Invite Friends</a>
+            </div>
           </div>
         </div>
-        <hr />
-        <div className="bottom">
-          <div className="left">
-            <h2>CampCart</h2>
-            <span>© CampCart copyright 2026</span>
+
+        <div className="footer-bottom">
+          <div className="copyright">
+            <span>&copy; 2026 CampCart. All rights reserved.</span>
           </div>
-          <div className="right">
-            <div className="social">
-              <img src="/img/twitter.png" alt="" />
-              <img src="/img/facebook.png" alt="" />
-              <img src="/img/linkedin.png" alt="" />
-              <img src="/img/pinterest.png" alt="" />
-              <img src="/img/instagram.png" alt="" />
-            </div>
-            <div className="link">
-              <img src="/img/language.png" alt="" />
-              <span>English</span>
-            </div>
-            <div className="link">
-              <img src="/img/coin.png" alt="" />
-              <span>USD</span>
-            </div>
-            <img src="/img/accessibility.png" alt="" />
+          <div className="badges">
+            <span className="badge">🔒 Secure Payments</span>
+            <span className="badge">✓ Verified Sellers</span>
+            <span className="badge">🛡️ Buyer Protection</span>
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 

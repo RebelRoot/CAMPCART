@@ -79,6 +79,18 @@ function Login() {
 
   return (
     <div className="login">
+      <div className="login-visual">
+        <div className="visual-content">
+          <div className="logo">CampCart<span className="dot">.</span></div>
+          <h2>Welcome back to your campus marketplace</h2>
+          <p>Join thousands of students buying, selling, and connecting every day.</p>
+          <div className="stats-row">
+            <div className="stat"><strong>2,400+</strong><span>Active Sellers</span></div>
+            <div className="stat"><strong>50+</strong><span>Campuses</span></div>
+            <div className="stat"><strong>4.9</strong><span>Avg Rating</span></div>
+          </div>
+        </div>
+      </div>
       <div className="login-card">
         <form onSubmit={handleSubmit}>
           <div className="header">
