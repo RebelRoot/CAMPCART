@@ -104,8 +104,9 @@ const Add = () => {
     e.preventDefault();
     
     // Validate required fields
-    if (!state.title?.trim() || !state.desc?.trim() || state.price === "" || state.price === null || state.price === undefined || !state.cat) {
-      toast.error('Please fill in all required fields (Title, Description, Price, Category)');
+    const priceVal = Number(state.price);
+    if (!state.title?.trim() || !state.desc?.trim() || isNaN(priceVal) || priceVal <= 0 || !state.cat) {
+      toast.error('Please fill in all required fields (Title, Description, Price must be > 0, Category)');
       return;
     }
     
@@ -297,7 +298,7 @@ const Add = () => {
               ))}
             </div>
             <label htmlFor="">Price</label>
-            <input type="number" onChange={handleChange} name="price" />
+            <input type="number" onChange={handleChange} name="price" min="1" placeholder="e.g. 199" />
             <label htmlFor="">COD Fee (optional late charge)</label>
             <input type="number" onChange={handleChange} name="codFee" placeholder="e.g. 5" />
           </div>
