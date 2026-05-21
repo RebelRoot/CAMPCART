@@ -104,7 +104,7 @@ const Add = () => {
     e.preventDefault();
     
     // Validate required fields
-    if (!state.title || !state.desc || !state.price || !state.cat) {
+    if (!state.title?.trim() || !state.desc?.trim() || state.price === "" || state.price === null || state.price === undefined || !state.cat) {
       toast.error('Please fill in all required fields (Title, Description, Price, Category)');
       return;
     }

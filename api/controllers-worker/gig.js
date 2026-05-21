@@ -87,3 +87,40 @@ export const getMyGigs = async (c) => {
 
   return c.json(result, 200);
 };
+
+export const getNewGigs = async (c) => {
+  const q = c.req.query();
+  const limit = q.limit ? parseInt(q.limit) : 8;
+  const gigs = db('gigs', c.env);
+
+  const result = await gigs.find({}, {
+    sort: { createdAt: -1 },
+    limit
+  });
+
+  return c.json(result, 200);
+};
+
+export const getFeaturedGigs = async (c) => {
+  const q = c.req.query();
+  const limit = q.limit ? parseInt(q.limit) : 8;
+  const gigs = db('gigs', c.env);
+
+  const result = await gigs.find({ featured: true }, {
+    sort: { createdAt: -1 },
+    limit
+  });
+
+  return c.json(result, 200);
+};
+
+export const getGigsByCategory = async (c) => {
+  const cat = c.req.param('cat');
+  const gigs = db('gigs', c.env);
+
+  const result = await gigs.find({ cat }, {
+    sort: { createdAt: -1 }
+  });
+
+  return c.json(result, 200);
+};

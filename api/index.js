@@ -58,7 +58,10 @@ app.delete('/users/:id', verifyToken, user.deleteUser);
 
 // Gig Routes
 app.get('/gigs', gig.getGigs);
+app.get('/gigs/new', gig.getNewGigs);
+app.get('/gigs/featured', gig.getFeaturedGigs);
 app.get('/gigs/my', verifyToken, gig.getMyGigs);
+app.get('/gigs/category/:cat', gig.getGigsByCategory);
 app.get('/gigs/single/:id', gig.getGig);
 app.post('/gigs', verifyToken, gig.createGig);
 app.delete('/gigs/:id', verifyToken, gig.deleteGig);
